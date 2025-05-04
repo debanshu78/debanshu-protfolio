@@ -3,9 +3,13 @@ import { SiLinkedin, SiInstagram } from "react-icons/si";
 import { RiTwitterXFill, RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import ThemeToogle from "../ThemeToogle";
+import useActiveSection from "../../hooks/useActiveSection";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // dark:bg-[#151c2e]
+  const activeSection = useActiveSection();
+  const menuItems = ["Home", "Skills", "Voices", "About", "Contact"];
+
   return (
     <div className="flex justify-center p-4 text-black dark:text-white">
       <div className="relative h-20 w-[96vw]">
@@ -35,12 +39,24 @@ const Navbar = () => {
           {/* Menu for desktop */}
           <div
             id="menu"
-            className="font-poppins hidden gap-5 font-medium md:flex"
+            className="font-poppins mx-6 hidden gap-5 font-medium md:flex"
           >
-            <div>Skills</div>
-            <div>Voices</div>
-            <div>About</div>
-            <div>Contact</div>
+            {menuItems.map((item) => (
+              <div key={item} className="group relative cursor-pointer">
+                <span
+                  className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+                >
+                  {item}
+                </span>
+                <span
+                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
+                    activeSection === item.toLowerCase()
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </div>
+            ))}
           </div>
 
           <div className="flex">
@@ -89,10 +105,22 @@ const Navbar = () => {
             <RiCloseLine size="2rem" onClick={() => setIsOpen(false)} />
           </div>
           <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
-            <div>Skills</div>
-            <div>Voices</div>
-            <div>About</div>
-            <div>Contact</div>
+            {menuItems.map((item) => (
+              <div key={item} className="group relative cursor-pointer">
+                <span
+                  className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+                >
+                  {item}
+                </span>
+                <span
+                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
+                    activeSection === item.toLowerCase()
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </div>
+            ))}
           </div>
           <div className="mt-5 flex gap-5">
             <a href="https://www.linkedin.com/in/debanshurout" target="_blank">

@@ -47,7 +47,10 @@ const Hero = () => {
   }, [roleIndex]);
 
   return (
-    <section className="font-poppins relative flex min-h-[80vh] items-center justify-center overflow-hidden px-6 py-16 text-center text-gray-800 dark:text-white">
+    <section
+      id="home"
+      className="font-poppins relative flex min-h-[80vh] items-center justify-center overflow-hidden px-6 py-16 text-center text-gray-800 dark:text-white"
+    >
       {/* Background blob / glow */}
       <div className="absolute top-0 right-0 left-0 -z-10 h-full w-full bg-gradient-to-br from-blue-50 to-purple-100 dark:from-[#0b0f19] dark:to-[#111827]" />
       <div className="absolute top-[30%] left-[50%] -z-10 h-96 w-96 -translate-x-1/2 rounded-full bg-purple-300 opacity-30 blur-3xl dark:bg-purple-800" />
@@ -98,7 +101,7 @@ const Hero = () => {
             className="dark:border-neon-green dark:text-neon-green dark:hover:bg-neon-green inline-flex items-center gap-2 rounded-xl border border-blue-500 px-6 py-3 text-blue-600 transition-all hover:bg-blue-600 hover:text-white dark:hover:text-black"
           >
             <HiOutlineUserAdd className="text-xl" />
-            Connect With Me
+            Let’s Build Together
           </motion.a>
           <motion.a
             href="/Debanshu_Rout_Resume.pdf" // Replace with your actual file path
