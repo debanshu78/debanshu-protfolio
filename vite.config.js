@@ -6,7 +6,10 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    port: 7800,
-    // historyApiFallback: true,
+    watch: {
+      usePolling: true,
+      interval: 100,
+    },
+    host: true, // Optional: if you're accessing from localhost or LAN
   },
 });

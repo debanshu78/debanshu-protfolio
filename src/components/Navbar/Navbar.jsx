@@ -45,6 +45,7 @@ const Navbar = () => {
           <div className="flex">
             <div className="items-center px-4 md:flex">
               <ThemeToogle />
+              <h1></h1>
             </div>
             {/* Social Links & Theme Toggle */}
             <div className="hidden items-center gap-5 px-5 md:flex">
@@ -80,14 +81,14 @@ const Navbar = () => {
         <motion.div
           initial={{ x: "100%" }}
           animate={{ x: isOpen ? 0 : "100%" }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          transition={{ duration: 1, ease: "easeInOut" }}
           className={`fixed top-0 right-0 z-50 flex h-full w-64 flex-col gap-5 rounded-2xl border-r border-gray-300 bg-white bg-gradient-to-br p-5 text-black drop-shadow-xl transition-all md:hidden dark:from-[#0b0f19] dark:to-[#111827] dark:text-white`}
         >
           <div className="flex justify-end">
             <RiCloseLine size="2rem" onClick={() => setIsOpen(false)} />
           </div>
           <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
-            <div>About</div>
+            <div>about</div>
             <div>Resume</div>
             <div>Contact</div>
           </div>

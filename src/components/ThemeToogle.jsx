@@ -40,14 +40,15 @@ const ThemeToogle = () => {
       whileTap={{ scale: 0.9 }}
       className="cursor-pointer"
     >
-      {darkMode ? (
+      {darkMode && (
         <motion.div
           animate={{ y: [-10, 0], opacity: [0, 1] }}
           transition={{ duration: 0.7 }}
         >
           <GiOwl size="2.2rem" className="text-yellow-500" />
         </motion.div>
-      ) : (
+      )}
+      {!darkMode && (
         <motion.div
           animate={{ scale: [0.8, 1.2, 1], rotate: [0, 360] }}
           transition={{ duration: 0.7 }}
