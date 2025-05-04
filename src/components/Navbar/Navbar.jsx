@@ -37,8 +37,9 @@ const Navbar = () => {
             id="menu"
             className="font-poppins hidden gap-5 font-medium md:flex"
           >
+            <div>Skills</div>
+            <div>Voices</div>
             <div>About</div>
-            <div>Resume</div>
             <div>Contact</div>
           </div>
 
@@ -88,8 +89,9 @@ const Navbar = () => {
             <RiCloseLine size="2rem" onClick={() => setIsOpen(false)} />
           </div>
           <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
-            <div>about</div>
-            <div>Resume</div>
+            <div>Skills</div>
+            <div>Voices</div>
+            <div>About</div>
             <div>Contact</div>
           </div>
           <div className="mt-5 flex gap-5">

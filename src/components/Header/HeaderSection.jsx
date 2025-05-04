@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { BiMessageRoundedDetail } from "react-icons/bi";
+import { HiOutlineDownload, HiOutlineUserAdd } from "react-icons/hi";
 
 const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -93,18 +95,20 @@ const Hero = () => {
             href="#contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="dark:border-neon-green dark:text-neon-green dark:hover:bg-neon-green rounded-xl border border-blue-500 px-6 py-3 text-blue-600 transition-all hover:bg-blue-600 hover:text-white dark:hover:text-black"
+            className="dark:border-neon-green dark:text-neon-green dark:hover:bg-neon-green inline-flex items-center gap-2 rounded-xl border border-blue-500 px-6 py-3 text-blue-600 transition-all hover:bg-blue-600 hover:text-white dark:hover:text-black"
           >
+            <HiOutlineUserAdd className="text-xl" />
             Connect With Me
           </motion.a>
-
           <motion.a
-            href="#testimonials"
+            href="/Debanshu_Rout_Resume.pdf" // Replace with your actual file path
+            download
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="rounded-xl border border-purple-500 px-6 py-3 text-purple-600 transition-all hover:bg-purple-600 hover:text-white dark:border-purple-400 dark:text-purple-300 dark:hover:bg-purple-400 dark:hover:text-black"
+            className="inline-flex items-center gap-2 rounded-xl border border-gray-500 px-6 py-3 text-gray-700 transition-all hover:bg-gray-800 hover:text-white dark:border-gray-300 dark:text-white dark:hover:bg-white dark:hover:text-black"
           >
-            Leave a Testimonial
+            <HiOutlineDownload className="text-xl" />
+            Download Resume
           </motion.a>
         </div>
       </motion.div>
