@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FaQuoteLeft } from "react-icons/fa";
+import { FaQuoteLeft, FaRegEdit } from "react-icons/fa";
 import { motion } from "framer-motion";
 import testimonials from "./testimonial.json";
 
@@ -29,12 +29,24 @@ const Voices = () => {
           What Others say
         </h2>
 
+        <p className="mb-1 text-gray-400 dark:text-gray-300">
+          Share a few words about working with me
+        </p>
+        <motion.a
+          href="/testimonial-form"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="dark:border-neon-green dark:text-neon-green dark:hover:bg-neon-green mb-3 inline-flex items-center gap-2 rounded-xl border border-blue-500 px-4 py-2 text-blue-600 transition-all hover:bg-blue-600 hover:text-white dark:hover:text-black"
+        >
+          <FaRegEdit className="text-xl" />
+          Add a few words
+        </motion.a>
+
         {/* Testimonial Carousel */}
         <div className="relative">
           <div
             ref={containerRef}
-            className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto p-2 transition-all duration-500 hover:[animation-play-state:paused]"
-            style={{ scrollBehavior: "smooth" }}
+            className="hide-scrollbar scroll-smoothtransition-all flex snap-x snap-mandatory gap-4 overflow-x-auto p-2 duration-500 hover:[animation-play-state:paused]"
           >
             {testimonials.map((t) => {
               const extraSkills = t.upvotedSkills.length - 3;
@@ -56,7 +68,7 @@ const Voices = () => {
                       </h4>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
                         {t.role},
-                        <span className="text-gray-400 pl-1">@{t.company}</span>
+                        <span className="pl-1 text-gray-400">@{t.company}</span>
                       </p>
                     </div>
                   </div>
