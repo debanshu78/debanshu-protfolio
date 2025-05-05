@@ -13,7 +13,7 @@ const App = () => {
       <HeaderSection />
       {/* <HeaderSectionD /> */}
       <Skills />
-      {/* <Voices /> */}
+      <Voices />
       {/* <Contact />  */}
     </div>
   );

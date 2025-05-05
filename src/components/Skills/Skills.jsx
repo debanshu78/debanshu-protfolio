@@ -50,7 +50,7 @@ const skillsData = [
 
 const categories = ["All", "Frontend", "Backend", "Tools", "Programming"];
 
-const SkillsSection = () => {
+const Skills = () => {
   const [votes, setVotes] = useState({});
   const [activeCategory, setActiveCategory] = useState("All");
   const [showArrows, setShowArrows] = useState(false);
@@ -213,4 +213,4 @@ const SkillsSection = () => {
   );
 };
 
-export default SkillsSection;
+export default Skills;
