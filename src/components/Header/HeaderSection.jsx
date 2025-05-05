@@ -104,7 +104,7 @@ const Hero = () => {
             Let’s Build Together
           </motion.a>
           <motion.a
-            href="/Debanshu_Rout_Resume.pdf" // Replace with your actual file path
+            href="./Debanshu_Rout_Resume.pdf" // Replace with your actual file path
             download
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

@@ -15,3 +15,12 @@
   --font-poppins: "Poppins", sans-serif;
   --font-firacode: "Fira Code", monospace;
 }
+
+/* Hide horizontal scrollbar cross-browser */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

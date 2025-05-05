@@ -43,11 +43,12 @@ const Navbar = () => {
           >
             {menuItems.map((item) => (
               <div key={item} className="group relative cursor-pointer">
-                <span
+                <a
+                  href={`#${item.toLowerCase()}`}
                   className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
                 >
                   {item}
-                </span>
+                </a>
                 <span
                   className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
                     activeSection === item.toLowerCase()

@@ -27,7 +27,7 @@ debanshu.intro();
 console.log(debanshu.testimonials());
 `;
 
-const HeaderSection = () => {
+const HeaderSectionD = () => {
   const [consoleOutput, setConsoleOutput] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -131,4 +131,4 @@ const HeaderSection = () => {
   );
 };
 
-export default HeaderSection;
+export default HeaderSectionD;
