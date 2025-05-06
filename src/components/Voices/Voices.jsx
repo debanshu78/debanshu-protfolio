@@ -21,7 +21,7 @@ const Voices = () => {
 
   return (
     <section
-      className="font-poppins relative min-h-[80vh] bg-gradient-to-br from-[#0b0f19] to-[#111827] px-6 py-16 text-center text-gray-800 dark:text-white"
+      className="font-poppins relative min-h-[80vh] bg-gradient-to-br from-[#f5f5f5] to-[#e4e4e7] transition-all duration-500 dark:bg-[#0d1117] dark:bg-gradient-to-br dark:from-[#0b0f19] dark:to-[#111827] px-6 py-16 text-center text-gray-800 dark:text-white"
       id="voices"
     >
       <div className="mx-auto max-w-6xl">
