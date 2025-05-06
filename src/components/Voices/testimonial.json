@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "avatar": "https://i.pravatar.cc/150?img=12",
+    "name": "Alice Johnson",
+    "role": "Senior Developer ",
+    "company": "TechCorp",
+    "linkedIn": "https://www.linkedin.com/in/alice-johnson",
+    "message": "Debanshu is a fantastic developer. His attention to detail and quality is unmatched.",
+    "fullMessage": "Debanshu is a fantastic developer. His attention to detail and quality is unmatched. During our time working together, he consistently delivered clean, maintainable code, and always brought fresh ideas to the table. I highly recommend him for any software engineering role.",
+    "upvotedSkills": [
+      "React",
+      "Node.js",
+      "Tailwind",
+      "PostgreSQL",
+      "TypeScript",
+      "Git"
+    ],
+    "date": "March 2025"
+  },
+  {
+    "id": 2,
+    "avatar": "https://i.pravatar.cc/150?img=33",
+    "name": "Mark Lee",
+    "role": "CTO",
+    "company": "InnovateX",
+    "linkedIn": "https://www.linkedin.com/in/mark-lee",
+    "message": "Reliable and driven, Debanshu is someone I could always count on.",
+    "fullMessage": "Reliable and driven, Debanshu is someone I could always count on. He built scalable systems under tight deadlines without compromising quality, and his leadership within the backend team was impressive.",
+    "upvotedSkills": ["PostgreSQL", "Security", "Express.js", "API Design"],
+    "date": "April 2025"
+  },
+  {
+    "id": 3,
+    "avatar": "https://i.pravatar.cc/150?img=45",
+    "name": "Nina Patel",
+    "role": "Frontend Lead",
+    "company": "Designify",
+    "linkedIn": "https://www.linkedin.com/in/nina-patel",
+    "message": "Debanshu brings design to life with code in a way that feels magical.",
+    "fullMessage": "Debanshu brings design to life with code in a way that feels magical. His UI work is responsive, accessible, and visually elegant. He's also extremely collaborative and communicative throughout the design-development process.",
+    "upvotedSkills": ["UI/UX", "Accessibility", "Framer Motion", "Tailwind"],
+    "date": "February 2025"
+  },
+  {
+    "id": 4,
+    "avatar": "https://i.pravatar.cc/150?img=21",
+    "name": "Carlos Méndez",
+    "role": "DevOps Engineer ",
+    "company": "CloudStack",
+    "linkedIn": "https://www.linkedin.com/in/carlos-mendez",
+    "message": "His automation skills saved us countless hours of deployment pain.",
+    "fullMessage": "His automation skills saved us countless hours of deployment pain. Debanshu set up robust CI/CD pipelines and containerized our entire stack in a matter of days. His documentation was also a huge plus for the team.",
+    "upvotedSkills": [
+      "Docker",
+      "CI/CD",
+      "GitHub Actions",
+      "Kubernetes",
+      "Cloudflare"
+    ],
+    "date": "January 2025"
+  }
+]
