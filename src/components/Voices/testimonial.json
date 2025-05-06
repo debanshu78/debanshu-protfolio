@@ -59,5 +59,125 @@
       "Cloudflare"
     ],
     "date": "January 2025"
+  },
+  {
+    "id": 5,
+    "avatar": "https://i.pravatar.cc/150?img=18",
+    "name": "Sophia Green",
+    "role": "Product Manager",
+    "company": "AgileWorks",
+    "linkedIn": "https://www.linkedin.com/in/sophia-green",
+    "message": "Debanshu's ability to understand product requirements and translate them into technical solutions is exceptional.",
+    "fullMessage": "Debanshu's ability to understand product requirements and translate them into technical solutions is exceptional. He consistently delivered features that exceeded expectations and was always proactive in suggesting improvements.",
+    "upvotedSkills": ["Agile", "Scrum", "Feature Development", "Communication"],
+    "date": "May 2025"
+  },
+  {
+    "id": 6,
+    "avatar": "https://i.pravatar.cc/150?img=27",
+    "name": "Liam Carter",
+    "role": "Data Scientist",
+    "company": "DataGenix",
+    "linkedIn": "https://www.linkedin.com/in/liam-carter",
+    "message": "Debanshu's expertise in data handling and optimization is top-notch.",
+    "fullMessage": "Debanshu's expertise in data handling and optimization is top-notch. He helped us streamline our data pipelines and improve query performance significantly. His insights were invaluable to our analytics team.",
+    "upvotedSkills": ["Data Engineering", "Optimization", "SQL", "Python"],
+    "date": "June 2025"
+  },
+  {
+    "id": 7,
+    "avatar": "https://i.pravatar.cc/150?img=9",
+    "name": "Emma Wilson",
+    "role": "Software Architect",
+    "company": "CodeCraft",
+    "linkedIn": "https://www.linkedin.com/in/emma-wilson",
+    "message": "Debanshu's architectural decisions have been pivotal to our project's success.",
+    "fullMessage": "Debanshu's architectural decisions have been pivotal to our project's success. He has a deep understanding of scalable systems and always ensures that the solutions are both efficient and maintainable.",
+    "upvotedSkills": ["System Design", "Scalability", "Microservices", "Cloud Architecture"],
+    "date": "July 2025"
+  },
+  {
+    "id": 8,
+    "avatar": "https://i.pravatar.cc/150?img=15",
+    "name": "Oliver Brown",
+    "role": "QA Lead",
+    "company": "Testify",
+    "linkedIn": "https://www.linkedin.com/in/oliver-brown",
+    "message": "Debanshu's commitment to quality is unparalleled.",
+    "fullMessage": "Debanshu's commitment to quality is unparalleled. He worked closely with our QA team to ensure that every release was bug-free and met the highest standards. His proactive approach to testing saved us countless hours.",
+    "upvotedSkills": ["Testing", "Automation", "Quality Assurance", "Jest"],
+    "date": "August 2025"
+  },
+  {
+    "id": 9,
+    "avatar": "https://i.pravatar.cc/150?img=30",
+    "name": "Isabella Martinez",
+    "role": "UX Designer",
+    "company": "CreativeFlow",
+    "linkedIn": "https://www.linkedin.com/in/isabella-martinez",
+    "message": "Debanshu's collaboration with designers is seamless and inspiring.",
+    "fullMessage": "Debanshu's collaboration with designers is seamless and inspiring. He has a knack for turning complex designs into functional and beautiful interfaces. His feedback during design reviews is always insightful.",
+    "upvotedSkills": ["Collaboration", "UI/UX", "Figma", "Responsive Design"],
+    "date": "September 2025"
+  },
+  {
+    "id": 10,
+    "avatar": "https://i.pravatar.cc/150?img=42",
+    "name": "Ethan Davis",
+    "role": "AI Engineer",
+    "company": "NeuralNet",
+    "linkedIn": "https://www.linkedin.com/in/ethan-davis",
+    "message": "Debanshu's contributions to our AI projects were groundbreaking.",
+    "fullMessage": "Debanshu's contributions to our AI projects were groundbreaking. He implemented efficient algorithms and optimized our models for production, significantly improving performance and accuracy.",
+    "upvotedSkills": ["Machine Learning", "AI", "TensorFlow", "Python"],
+    "date": "October 2025"
+  },
+  {
+    "id": 11,
+    "avatar": "https://i.pravatar.cc/150?img=36",
+    "name": "Charlotte Evans",
+    "role": "Technical Writer",
+    "company": "DocuTech",
+    "linkedIn": "https://www.linkedin.com/in/charlotte-evans",
+    "message": "Debanshu's documentation is clear, concise, and incredibly helpful.",
+    "fullMessage": "Debanshu's documentation is clear, concise, and incredibly helpful. He ensures that every aspect of the codebase is well-documented, making it easy for new team members to onboard and contribute effectively.",
+    "upvotedSkills": ["Documentation", "Technical Writing", "Clarity", "Onboarding"],
+    "date": "November 2025"
+  },
+  {
+    "id": 12,
+    "avatar": "https://i.pravatar.cc/150?img=48",
+    "name": "James Taylor",
+    "role": "Full Stack Developer",
+    "company": "WebWorks",
+    "linkedIn": "https://www.linkedin.com/in/james-taylor",
+    "message": "Debanshu's full-stack expertise is truly impressive.",
+    "fullMessage": "Debanshu's full-stack expertise is truly impressive. He seamlessly integrates frontend and backend systems, ensuring a smooth user experience. His ability to debug and optimize across the stack is remarkable.",
+    "upvotedSkills": ["Full Stack Development", "Debugging", "Optimization", "JavaScript"],
+    "date": "December 2025"
+  },
+  {
+    "id": 13,
+    "avatar": "https://i.pravatar.cc/150?img=24",
+    "name": "Amelia Harris",
+    "role": "Project Coordinator",
+    "company": "PlanIt",
+    "linkedIn": "https://www.linkedin.com/in/amelia-harris",
+    "message": "Debanshu's organizational skills kept our project on track.",
+    "fullMessage": "Debanshu's organizational skills kept our project on track. He was instrumental in coordinating between teams and ensuring that deadlines were met without compromising quality.",
+    "upvotedSkills": ["Project Management", "Organization", "Team Coordination", "Agile"],
+    "date": "January 2026"
+  },
+  {
+    "id": 14,
+    "avatar": "https://i.pravatar.cc/150?img=39",
+    "name": "Lucas White",
+    "role": "Cloud Engineer",
+    "company": "SkyNet",
+    "linkedIn": "https://www.linkedin.com/in/lucas-white",
+    "message": "Debanshu's cloud expertise transformed our infrastructure.",
+    "fullMessage": "Debanshu's cloud expertise transformed our infrastructure. He migrated our systems to the cloud seamlessly and implemented cost-effective solutions that improved performance and reliability.",
+    "upvotedSkills": ["Cloud Computing", "AWS", "Cost Optimization", "Reliability"],
+    "date": "February 2026"
   }
 ]
