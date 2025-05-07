@@ -1,4 +1,5 @@
 import "./App.css";
+import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
 import HeaderSection from "./components/Header/HeaderSection";
 import HeaderSectionD from "./components/Header/HeaderSectionDeveloper";
@@ -14,6 +15,8 @@ const App = () => {
       {/* <HeaderSectionD /> */}
       <Skills />
       <Voices />
+      <About />
+
       {/* <Contact />  */}
     </div>
   );
