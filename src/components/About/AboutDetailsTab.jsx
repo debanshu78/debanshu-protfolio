@@ -108,7 +108,7 @@ const AboutDetailsTab = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="custom-scrollbar max-h-[340px] space-y-4 overflow-y-auto"
+          className="custom-scrollbar max-h-[340px] space-y-4 overflow-y-auto pr-3 text-justify"
         >
           {tabContent[activeTab]}
         </motion.div>
