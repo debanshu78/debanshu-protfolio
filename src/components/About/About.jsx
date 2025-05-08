@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { FaCode, FaBriefcase } from "react-icons/fa"; // Icons for the timeline items
+import AboutDetailsTab from "./AboutDetailsTab";
 
 const About = () => {
   const timelineRef = useRef(null);
@@ -9,136 +11,132 @@ const About = () => {
       year: "2019",
       title: "Started My Journey",
       description: "Began coding and exploring web technologies.",
+      icon: <FaCode />,
     },
     {
       year: "2021",
       title: "Internship at WebCorp",
-      description: "Worked as a frontend intern building responsive UIs.",
+      description: "Built responsive UIs as a frontend intern.",
+      icon: <FaBriefcase />,
     },
     {
       year: "2022",
-      title: "Backend Developer at DevSolutions",
-      description: "Designed and maintained RESTful APIs with Node.js.",
+      title: "Backend Dev at DevSolutions",
+      description: "Created scalable APIs using Node.js.",
+      icon: <FaCode />,
     },
     {
       year: "2024",
-      title: "Full-Stack Developer @Freelance",
-      description: "Delivered end-to-end projects for clients worldwide.",
-    },
-    {
-      year: "2019",
-      title: "Started My Journey",
-      description: "Began coding and exploring web technologies.",
+      title: "Full-Stack Freelance",
+      description: "Delivered client projects end-to-end.",
+      icon: <FaBriefcase />,
     },
     {
       year: "2021",
       title: "Internship at WebCorp",
-      description: "Worked as a frontend intern building responsive UIs.",
+      description: "Built responsive UIs as a frontend intern.",
+      icon: <FaBriefcase />,
     },
     {
       year: "2022",
-      title: "Backend Developer at DevSolutions",
-      description: "Designed and maintained RESTful APIs with Node.js.",
+      title: "Backend Dev at DevSolutions",
+      description: "Created scalable APIs using Node.js.",
+      icon: <FaCode />,
     },
     {
       year: "2024",
-      title: "Full-Stack Developer @Freelance",
-      description: "Delivered end-to-end projects for clients worldwide.",
+      title: "Full-Stack Freelance",
+      description: "Delivered client projects end-to-end.",
+      icon: <FaBriefcase />,
     },
   ];
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (timelineRef.current) {
-  //       timelineRef.current.scrollTop += 2; // Adjust scroll speed
-  //     }
-  //   }, 50); // Adjust interval time for auto scroll speed
+  // ✅ Smooth auto-scroll
+  useEffect(() => {
+    const container = timelineRef.current;
+    if (!container) return;
 
-  //   return () => clearInterval(intervalId); // Cleanup the interval on unmount
-  // }, []);
+    let scrollSpeed = 0.5;
+    let scrolling = true;
+
+    const scroll = () => {
+      if (scrolling) {
+        container.scrollTop += scrollSpeed;
+        if (
+          container.scrollTop + container.clientHeight >=
+          container.scrollHeight
+        ) {
+          container.scrollTop = 0; // loop scroll
+        }
+      }
+      requestAnimationFrame(scroll);
+    };
+
+    container.addEventListener("mouseenter", () => (scrolling = false));
+    container.addEventListener("mouseleave", () => (scrolling = true));
+
+    requestAnimationFrame(scroll);
+
+    return () => {
+      container.removeEventListener("mouseenter", () => (scrolling = false));
+      container.removeEventListener("mouseleave", () => (scrolling = true));
+    };
+  }, []);
 
   return (
     <section
       id="about"
-      className="bg-[#f9fafb] px-4 py-16 transition-all duration-500 dark:bg-[#0f172a]"
+      className="bg-gradient-to-br from-[#f9fafb] to-white px-6 py-18 dark:from-[#0b0f19] dark:to-[#111827]"
     >
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-10 md:flex-row">
-          {/* Left Column - Intro + Ask Me Anything */}
-          <div className="space-y-8 md:w-1/2">
-            <h2 className="mb-3 text-2xl font-semibold text-gray-800 dark:text-white">
-              Who Am I?
-            </h2>
-            <div>
-              <p className="text-base leading-relaxed text-gray-600 dark:text-gray-300">
-                A passionate full-stack developer who thrives on building clean,
-                scalable, and meaningful digital experiences. Whether it’s
-                frontend polish or backend logic, I enjoy solving problems and
-                learning along the way.
-              </p>
-            </div>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-16 md:grid-cols-2">
+        {/* LEFT: Who Am I */}
+        <AboutDetailsTab />
+        {/* RIGHT: Timeline */}
+        <div className="relative">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-6 text-3xl font-bold text-gray-900 dark:text-white"
+          >
+            How My Journey So Far
+          </motion.h2>
 
-            <div className="border-neon-green rounded-xl border bg-white p-5 shadow-md dark:bg-[#0d1117]">
-              <h3 className="text-neon-green mb-2 text-lg font-semibold">
-                Ask Me Anything 💬
-              </h3>
-              <p className="mb-4 text-gray-700 dark:text-gray-300">
-                Curious about my dev journey? Ask me anything — I’m happy to
-                chat!
-              </p>
-              <a
-                href="/contact"
-                className="border-neon-green text-neon-green hover:bg-neon-green inline-block rounded-lg border px-4 py-2 transition hover:text-black"
-              >
-                Let’s Connect
-              </a>
-            </div>
-          </div>
-
-          {/* Right Column - Scrollable Timeline */}
           <div
             ref={timelineRef}
-            className="relative max-h-[500px] overflow-hidden pl-6 md:w-1/2"
+            className="hide-scrollbar max-h-[400px] overflow-y-auto scroll-smooth pr-4"
           >
-            {/* Vertical line */}
-            <div className="bg-neon-green absolute top-0 left-6 h-full w-1 rounded-full opacity-60"></div>
-
-            {/* Scroll Down Arrow */}
-            <div className="text-neon-green absolute bottom-5 left-1/2 -translate-x-1/2 transform">
-              <span className="text-xl">↓</span>
-            </div>
-
-            <motion.div
-              className="space-y-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <h2 className="mb-3 text-2xl font-semibold text-gray-800 dark:text-white">
-                How My Journey Is
-              </h2>
-              {timelineItems.map((item, idx) => (
+            <div className="dark:border-neon-green relative ml-4 space-y-10 border-l-3 border-blue-500 pl-6">
+              {timelineItems.map((item, index) => (
                 <motion.div
-                  key={idx}
-                  className="relative pl-10"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: idx * 0.2, duration: 0.5 }}
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  className="relative"
                 >
-                  {/* Dot */}
-                  <div className="bg-neon-green absolute top-1.5 -left-[0.65rem] h-4 w-4 rounded-full border-2 border-white dark:border-gray-800"></div>
+                  {/* Dot aligned with the line */}
+                  <div className="dark:bg-neon-green absolute top-1.5 -left-[1.05rem] h-4 w-4 rounded-full border-4 border-white bg-blue-500 dark:border-[#0b0f19]"></div>
 
-                  <div>
-                    <h4 className="text-lg font-bold text-gray-800 dark:text-white">
-                      {item.year} - {item.title}
+                  {/* Timeline Item with Icon */}
+                  <div className="flex items-center space-x-3">
+                    {item.icon && (
+                      <div className="text-xl text-gray-800 dark:text-white">
+                        {item.icon}
+                      </div>
+                    )}
+                    <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
+                      {item.year} – {item.title}
                     </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      {item.description}
-                    </p>
                   </div>
+
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {item.description}
+                  </p>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

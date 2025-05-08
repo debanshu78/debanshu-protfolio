@@ -14,6 +14,13 @@
 :root {
   --font-poppins: "Poppins", sans-serif;
   --font-firacode: "Fira Code", monospace;
+  --scroll-thumb: #3b82f6; /* blue-500 */
+  --scroll-track: #f1f5f9;
+}
+
+.dark {
+  --scroll-thumb: #a8e1cb; /* your minty green for dark theme */
+  --scroll-track: #1b2a49; /* your dark bluish track */
 }
 
 /* Hide horizontal scrollbar cross-browser */
@@ -33,4 +40,23 @@
 }
 .transform-style-3d {
   transform-style: preserve-3d;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track); /* Firefox */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb);
+  border-radius: 10px;
+  border: 2px solid var(--scroll-track);
 }
