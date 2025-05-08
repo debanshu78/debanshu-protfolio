@@ -52,54 +52,6 @@ const About = () => {
   ];
 
   // Smooth auto-scroll
-  const intervalRef = useRef();
-
-  const [scrollEnd, setScrollEnd] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const container = timelineRef.current;
-
-    if (!container) return;
-
-    const scrollSpeed = 1; // pixels per tick
-    const tick = 50; // ms between ticks
-
-    // start auto‐scroll loop
-    const startScroll = () => {
-      // clear any existing
-      clearInterval(intervalRef.current);
-      intervalRef.current = setInterval(() => {
-        // if reached bottom, jump back to top
-        if (
-          container.scrollTop + container.clientHeight >=
-          container.scrollHeight
-        ) {
-          clearInterval(intervalRef.current);
-          container.scrollTop = 0;
-        } else {
-          container.scrollTop += scrollSpeed;
-        }
-      }, tick);
-    };
-
-    // stop auto‐scroll
-    const stopScroll = () => {
-      clearInterval(intervalRef.current);
-    };
-
-    // kick it off
-    if (isHovered) {
-      stopScroll();
-    } else {
-      startScroll();
-    }
-
-    // cleanup
-    return () => {
-      stopScroll();
-    };
-  }, [isHovered]);
 
   return (
     <section
@@ -122,8 +74,6 @@ const About = () => {
 
           <div
             ref={timelineRef}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
             className="hide-scrollbar max-h-[400px] overflow-y-auto scroll-smooth pr-4"
           >
             <div className="dark:border-neon-green relative ml-4 space-y-10 border-l-3 border-blue-500 pl-6">
