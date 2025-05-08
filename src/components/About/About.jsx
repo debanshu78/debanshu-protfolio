@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { FaCode, FaBriefcase } from "react-icons/fa"; // Icons for the timeline items
 import AboutDetailsTab from "./AboutDetailsTab";
@@ -51,37 +51,55 @@ const About = () => {
     },
   ];
 
-  // ✅ Smooth auto-scroll
+  // Smooth auto-scroll
+  const intervalRef = useRef();
+
+  const [scrollEnd, setScrollEnd] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   useEffect(() => {
     const container = timelineRef.current;
+
     if (!container) return;
 
-    let scrollSpeed = 0.5;
-    let scrolling = true;
+    const scrollSpeed = 1; // pixels per tick
+    const tick = 50; // ms between ticks
 
-    const scroll = () => {
-      if (scrolling) {
-        container.scrollTop += scrollSpeed;
+    // start auto‐scroll loop
+    const startScroll = () => {
+      // clear any existing
+      clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(() => {
+        // if reached bottom, jump back to top
         if (
           container.scrollTop + container.clientHeight >=
           container.scrollHeight
         ) {
-          container.scrollTop = 0; // loop scroll
+          clearInterval(intervalRef.current);
+          container.scrollTop = 0;
+        } else {
+          container.scrollTop += scrollSpeed;
         }
-      }
-      requestAnimationFrame(scroll);
+      }, tick);
     };
 
-    container.addEventListener("mouseenter", () => (scrolling = false));
-    container.addEventListener("mouseleave", () => (scrolling = true));
+    // stop auto‐scroll
+    const stopScroll = () => {
+      clearInterval(intervalRef.current);
+    };
 
-    requestAnimationFrame(scroll);
+    // kick it off
+    if (isHovered) {
+      stopScroll();
+    } else {
+      startScroll();
+    }
 
+    // cleanup
     return () => {
-      container.removeEventListener("mouseenter", () => (scrolling = false));
-      container.removeEventListener("mouseleave", () => (scrolling = true));
+      stopScroll();
     };
-  }, []);
+  }, [isHovered]);
 
   return (
     <section
@@ -104,6 +122,8 @@ const About = () => {
 
           <div
             ref={timelineRef}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             className="hide-scrollbar max-h-[400px] overflow-y-auto scroll-smooth pr-4"
           >
             <div className="dark:border-neon-green relative ml-4 space-y-10 border-l-3 border-blue-500 pl-6">
