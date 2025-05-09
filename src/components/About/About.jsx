@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaCode, FaBriefcase } from "react-icons/fa"; // Icons for the timeline items
+import { FaCode, FaBriefcase } from "react-icons/fa";
 import AboutDetailsTab from "./AboutDetailsTab";
 
 const About = () => {
   const timelineRef = useRef(null);
+  const scrollIntervalRef = useRef(null);
 
   const timelineItems = [
     {
@@ -51,7 +52,35 @@ const About = () => {
     },
   ];
 
-  // Smooth auto-scroll
+  // Auto-scroll logic
+  const startAutoScroll = () => {
+    const container = timelineRef.current;
+    if (!container) return;
+
+    scrollIntervalRef.current = setInterval(() => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+
+      // At bottom
+      if (scrollTop + clientHeight >= scrollHeight - 1) {
+        stopAutoScroll();
+        setTimeout(() => {
+          container.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(startAutoScroll, 500); // Resume after scroll reset
+        }, 300); // Pause before reset
+      } else {
+        container.scrollTop += 2;
+      }
+    }, 30);
+  };
+
+  const stopAutoScroll = () => {
+    clearInterval(scrollIntervalRef.current);
+  };
+
+  useEffect(() => {
+    startAutoScroll();
+    return stopAutoScroll; // Cleanup
+  }, []);
 
   return (
     <section
@@ -61,6 +90,7 @@ const About = () => {
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-16 md:grid-cols-2">
         {/* LEFT: Who Am I */}
         <AboutDetailsTab />
+
         {/* RIGHT: Timeline */}
         <div className="relative">
           <motion.h2
@@ -74,6 +104,8 @@ const About = () => {
 
           <div
             ref={timelineRef}
+            onMouseEnter={stopAutoScroll}
+            onMouseLeave={startAutoScroll}
             className="hide-scrollbar max-h-[400px] overflow-y-auto scroll-smooth pr-4"
           >
             <div className="dark:border-neon-green relative ml-4 space-y-10 border-l-3 border-blue-500 pl-6">
@@ -86,10 +118,7 @@ const About = () => {
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   className="relative"
                 >
-                  {/* Dot aligned with the line */}
-                  <div className="dark:bg-neon-green absolute top-1.5 -left-[1.05rem] h-4 w-4 rounded-full border-4 border-white bg-blue-500 dark:border-[#0b0f19]"></div>
-
-                  {/* Timeline Item with Icon */}
+                  {/* Dot */}
                   <div className="flex items-center space-x-3">
                     {item.icon && (
                       <div className="text-xl text-gray-800 dark:text-white">
