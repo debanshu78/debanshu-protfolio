@@ -85,7 +85,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="bg-gradient-to-br from-[#f9fafb] to-white px-6 py-18 dark:from-[#0b0f19] dark:to-[#111827]"
+      className="bg-[#f9fafb] px-4 py-16 transition-all duration-500 dark:bg-[#0f172a]"
     >
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-16 md:grid-cols-2">
         {/* LEFT: Who Am I */}

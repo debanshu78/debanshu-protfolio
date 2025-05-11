@@ -110,9 +110,12 @@ const Skills = () => {
       className="bg-[#f9fafb] px-4 py-16 transition-all duration-500 dark:bg-[#0f172a]"
     >
       <div className="mx-auto max-w-6xl">
-        <h2 className="mb-10 text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
+        <h2 className="mb-1 text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
           What I Know
         </h2>
+        <p className="mb-10 text-center text-gray-400 dark:text-gray-300">
+          Click on the ⬆️ to upvote my skills
+        </p>
 
         {/* Category Toggles */}
         <div className="mb-10 flex flex-wrap justify-center gap-4">
