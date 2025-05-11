@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaCode, FaBriefcase } from "react-icons/fa";
+import { FaCode, FaBriefcase, FaArrowUp } from "react-icons/fa";
 import AboutDetailsTab from "./AboutDetailsTab";
 
 const About = () => {
@@ -50,6 +50,13 @@ const About = () => {
       description: "Delivered client projects end-to-end.",
       icon: <FaBriefcase />,
     },
+    {
+      year: "2025",
+      title: "More to come...",
+      description: "Future milestones to be added.",
+      icon: <FaCode />,
+      comingSoon: true,
+    },
   ];
 
   // Auto-scroll logic
@@ -63,14 +70,17 @@ const About = () => {
       // At bottom
       if (scrollTop + clientHeight >= scrollHeight - 1) {
         stopAutoScroll();
-        setTimeout(() => {
-          container.scrollTo({ top: 0, behavior: "smooth" });
-          setTimeout(startAutoScroll, 500); // Resume after scroll reset
-        }, 300); // Pause before reset
+        // Pause before reset
       } else {
         container.scrollTop += 2;
       }
     }, 30);
+  };
+
+  const scrollToTop = () => {
+    if (timelineRef.current) {
+      timelineRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const stopAutoScroll = () => {
@@ -133,6 +143,20 @@ const About = () => {
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     {item.description}
                   </p>
+                  {item.comingSoon && (
+                    <>
+                      <p className="text-xs text-gray-400 italic dark:text-gray-500">
+                        More to come...
+                      </p>
+                      <button
+                        onClick={scrollToTop}
+                        aria-label="Scroll to Top"
+                        className="dark:hover:text-neon-green mt-6 flex flex-row items-center gap-4 text-gray-600 transition hover:text-blue-600 dark:text-gray-300"
+                      >
+                        Back to Top <FaArrowUp className="text-base" />
+                      </button>
+                    </>
+                  )}
                 </motion.div>
               ))}
             </div>
