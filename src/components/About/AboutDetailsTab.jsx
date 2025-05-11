@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaCode, FaMusic, FaMountain, FaGamepad } from "react-icons/fa";
 
 const AboutDetailsTab = () => {
   const [activeTab, setActiveTab] = useState("professional");
@@ -18,6 +19,11 @@ const AboutDetailsTab = () => {
           enjoy the process — from structuring sleek interfaces to understanding
           how data flows through systems.
         </p>
+        <div className="dark:text-neon-green flex items-center space-x-2 text-blue-500">
+          <p className="text-sm italic">
+            "The best way to learn is to build, break 🔨, and build again 🔁"
+          </p>
+        </div>
         <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
           Bugs? Yes, they’re stressful. Fixing them? Pure joy. That “it works!”
           moment is what keeps me motivated and hungry to keep learning.
@@ -28,9 +34,6 @@ const AboutDetailsTab = () => {
           learning curve. For me, every new concept is an opportunity to grow
           and think differently.
         </p>
-        <p className="text-sm text-gray-500 italic dark:text-gray-400">
-          "The best way to learn is to build, break, and build again."
-        </p>
       </>
     ),
     personal: (
@@ -40,33 +43,36 @@ const AboutDetailsTab = () => {
           and a deep spiritual connection with Lord Jagannath. Spirituality
           grounds me, and I carry that calm strength into everything I do.
         </p>
+        <div className="dark:text-neon-green flex items-center space-x-2 text-blue-500">
+          <p className="text-sm italic">
+            “Where words fail, music speaks 🎶.” – Hans Christian Andersen
+          </p>
+        </div>
         <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
           Music is my constant companion. I don’t just listen — I dive deep into
           every tune, every instrument, feeling the soul of the composition.
           It’s more than entertainment — it’s a form of meditation.
         </p>
-        <p className="text-sm text-gray-500 italic dark:text-gray-400">
-          “Where words fail, music speaks.” – Hans Christian Andersen
-        </p>
+        <div className="dark:text-neon-green flex items-center space-x-2 text-blue-500">
+          <p className="text-sm italic">
+            “The mountains are calling, and I must go.” – John Muir
+          </p>
+        </div>
         <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
           Travel is my way of reconnecting with the world and with myself. From
           the gentle hum of ocean waves to the quiet majesty of the mountains, I
           find healing and inspiration in nature. Rain, especially, feels like a
           magical brush that paints beauty onto everything it touches.
         </p>
-        <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
-          I’ve been a tech enthusiast since childhood — endlessly fascinated by
-          innovative gadgets and the way they push boundaries. I love geeking
-          out on smart devices. The more unique the feature, the more it
-          fascinates me.
-        </p>
+        <div className="dark:text-neon-green flex items-center space-x-2 text-blue-500">
+          <p className="text-sm italic">
+            “Life is like a game — sometimes you win, sometimes you learn.”
+          </p>
+        </div>
         <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
           And yes, recently I’ve bravely taken up badminton. My smashes? Not
           quite Olympic-ready. But I run after the shuttle like my career
           depends on it. It’s chaos, cardio, and comedy — all in one.
-        </p>
-        <p className="text-sm text-gray-500 italic dark:text-gray-400">
-          “Stay curious. Stay consistent. Keep evolving.”
         </p>
       </>
     ),
@@ -79,12 +85,12 @@ const AboutDetailsTab = () => {
       transition={{ duration: 0.6 }}
       className="space-y-6"
     >
-      <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+      <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">
         Who Am I?
       </h2>
 
       {/* Tab Controls */}
-      <div className="flex space-x-4 border-b border-gray-300 dark:border-gray-600">
+      <div className="mb-6 flex space-x-4 border-b border-gray-300 dark:border-gray-600">
         {tabs.map((tab) => (
           <button
             key={tab.id}
