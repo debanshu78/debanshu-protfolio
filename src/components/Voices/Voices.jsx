@@ -63,7 +63,7 @@ const Voices = () => {
     >
       <div className="mx-auto max-w-6xl">
         <h2 className="mb-10 text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
-          What Others say
+          What Others say?
         </h2>
 
         <p className="mb-1 text-gray-400 dark:text-gray-300">

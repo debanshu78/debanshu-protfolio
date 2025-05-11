@@ -111,7 +111,7 @@ const Skills = () => {
     >
       <div className="mx-auto max-w-6xl">
         <h2 className="mb-1 text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
-          What I Know
+          What I Know?
         </h2>
         <p className="mb-10 text-center text-gray-400 dark:text-gray-300">
           Click on the ⬆️ to upvote my skills

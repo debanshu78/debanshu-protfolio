@@ -42,15 +42,20 @@ const Contact = () => {
       id="contact"
       className="font-poppins relative min-h-[80vh] bg-gradient-to-br from-[#f5f5f5] to-[#e4e4e7] px-6 py-16 text-gray-800 transition-all duration-500 dark:bg-[#0d1117] dark:bg-gradient-to-br dark:from-[#0b0f19] dark:to-[#111827] dark:text-white"
     >
-      <motion.h2
+      <motion.div
         whileInView={{ opacity: 1, y: 0 }}
         initial={{ opacity: 0, y: 30 }}
         transition={{ duration: 0.5 }}
-        viewport={{ once: true, amount: 0.5 }}
-        className="mb-8 pb-5 text-center text-3xl font-bold"
+        // viewport={{ once: true, amount: 0.5 }}
+        className="mb-8 pb-5 text-center"
       >
-        Whether it’s professional or personal <br /> I’d love to hear from you.
-      </motion.h2>
+        <h2 className="pb-2 text-center text-3xl font-bold">
+          Got something to say?
+        </h2>
+        <p className="mb-1 text-gray-400 dark:text-gray-300">
+          Let’s chat 💭, collab 🤝, or grab coffee ☕!
+        </p>
+      </motion.div>
 
       <div className="mx-auto grid min-h-[500px] max-w-6xl grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
         {/* Left Panel */}
@@ -58,7 +63,7 @@ const Contact = () => {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true, amount: 0.4 }}
+          // viewport={{ once: true, amount: 0.4 }}
         >
           <div className="mb-8 flex justify-center space-x-4">
             <button
@@ -194,7 +199,7 @@ const Contact = () => {
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
+          // viewport={{ once: true, amount: 0.4 }}
           className="flex flex-col items-center justify-center gap-8 text-center lg:border-l lg:pl-12"
         >
           <div className="space-y-3">
