@@ -49,7 +49,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="font-poppins relative flex min-h-[80vh] items-center justify-center overflow-hidden px-6 py-16 text-center text-gray-800 dark:text-white"
+      className="font-poppins relative flex min-h-[100vh] items-center justify-center overflow-hidden px-6 py-16 text-center text-gray-800 dark:text-white"
     >
       {/* Background blob / glow */}
       <div className="absolute top-0 right-0 left-0 -z-10 h-full w-full bg-gradient-to-br from-blue-50 to-purple-100 dark:from-[#0b0f19] dark:to-[#111827]" />

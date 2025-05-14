@@ -11,7 +11,7 @@ const Navbar = () => {
   const menuItems = ["Home", "Skills", "Voices", "About", "Contact"];
 
   return (
-    <div className="flex justify-center p-4 text-black dark:text-white">
+    <div className="fixed top-0 left-0 z-50 flex w-full justify-center bg-transparent p-4 text-black dark:text-white">
       <div className="relative h-20 w-[96vw]">
         {/* Gradient Border Layer */}
         <div className="dark:bg-neon-green absolute inset-x-[-0.5px] inset-y-[0.5px] h-full w-full rounded-2xl bg-blue-600 p-5 opacity-30"></div>
