@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { BiMessageRoundedDetail } from "react-icons/bi";
 import { HiOutlineDownload, HiOutlineUserAdd } from "react-icons/hi";
 
 const Hero = () => {
