@@ -99,7 +99,7 @@ const Navbar = () => {
         <motion.div
           initial={{ x: "100%" }}
           animate={{ x: isOpen ? 0 : "100%" }}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
           className={`fixed top-0 right-0 z-50 flex h-full w-64 flex-col gap-5 rounded-2xl border-r border-gray-300 bg-white bg-gradient-to-br p-5 text-black drop-shadow-xl transition-all md:hidden dark:from-[#0b0f19] dark:to-[#111827] dark:text-white`}
         >
           <div className="flex justify-end">
@@ -108,11 +108,13 @@ const Navbar = () => {
           <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
             {menuItems.map((item) => (
               <div key={item} className="group relative cursor-pointer">
-                <span
+                <a
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setIsOpen(false)}
                   className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
                 >
                   {item}
-                </span>
+                </a>
                 <span
                   className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
                     activeSection === item.toLowerCase()

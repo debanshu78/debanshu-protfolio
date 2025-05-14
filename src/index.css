@@ -16,6 +16,7 @@
   --font-firacode: "Fira Code", monospace;
   --scroll-thumb: #3b82f6; /* blue-500 */
   --scroll-track: #f1f5f9;
+  overflow-x: hidden;
 }
 
 .dark {
@@ -30,6 +31,10 @@
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
+}
+
+body {
+  overflow-x: hidden;
 }
 
 .backface-hidden {
