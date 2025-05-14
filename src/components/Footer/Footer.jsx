@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#f9fafb] px-4 py-16 dark:bg-[#0f172a]">
+    <footer id="footer" className="bg-[#f9fafb] px-4 py-16 dark:bg-[#0f172a]">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-16 md:grid-cols-2">
         {/* Left Panel */}
         <motion.div

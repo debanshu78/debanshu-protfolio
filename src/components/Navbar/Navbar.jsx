@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SiLinkedin, SiInstagram } from "react-icons/si";
 import { RiTwitterXFill, RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import { motion } from "framer-motion";
@@ -7,8 +7,33 @@ import useActiveSection from "../../hooks/useActiveSection";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [floatingOpen, setFloatingOpen] = useState(false);
+  const [showFloating, setShowFloating] = useState(false);
   const activeSection = useActiveSection();
   const menuItems = ["Home", "Skills", "Voices", "About", "Contact"];
+
+  // Show floating button based on scroll position and footer distance
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const footerElement = document.getElementById("footer");
+
+      // Check if footer exists and get its position
+      const footerOffset = footerElement ? footerElement.offsetTop : Infinity;
+      const footerHeight = footerElement ? footerElement.offsetHeight : 0;
+
+      // Button will appear after 300px scroll, and hide if the footer is near
+      const shouldShowButton =
+        scrollY > 300 &&
+        scrollY + windowHeight < footerOffset - footerHeight + 700;
+
+      setShowFloating(shouldShowButton);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="flex justify-center p-4 text-black dark:text-white">
@@ -63,12 +88,9 @@ const Navbar = () => {
           <div className="flex">
             <div className="items-center px-4 md:flex">
               <ThemeToogle />
-              <h1></h1>
             </div>
             {/* Social Links & Theme Toggle */}
             <div className="hidden items-center gap-5 px-5 md:flex">
-              {/* Theme Toggle Button */}
-
               <a
                 href="https://www.linkedin.com/in/debanshurout"
                 target="_blank"
@@ -95,48 +117,48 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        {/* Mobile Sidebar */}
-        <motion.div
-          initial={{ x: "100%" }}
-          animate={{ x: isOpen ? 0 : "100%" }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`fixed top-0 right-0 z-50 flex h-full w-64 flex-col gap-5 rounded-2xl border-r border-gray-300 bg-white bg-gradient-to-br p-5 text-black drop-shadow-xl transition-all md:hidden dark:from-[#0b0f19] dark:to-[#111827] dark:text-white`}
-        >
-          <div className="flex justify-end">
-            <RiCloseLine size="2rem" onClick={() => setIsOpen(false)} />
-          </div>
-          <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
-            {menuItems.map((item) => (
-              <div key={item} className="group relative cursor-pointer">
-                <a
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsOpen(false)}
-                  className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+
+        {/* Floating Menu */}
+        {showFloating && (
+          <div className="fixed right-5 bottom-10 z-40">
+            {/* Open Button */}
+            {!floatingOpen && (
+              <button
+                onClick={() => setFloatingOpen(true)}
+                className="dark:text-neon-green p-1 text-2xl text-blue-600 opacity-30 transition hover:opacity-100 focus:outline-none"
+                aria-label="Open menu"
+              >
+                &#9776; {/* Hamburger icon */}
+              </button>
+            )}
+
+            {/* Floating Menu */}
+            {floatingOpen && (
+              <div className="mt-3 flex flex-col items-end gap-2">
+                {/* Close Button */}
+                <button
+                  onClick={() => setFloatingOpen(false)}
+                  className="dark:text-neon-green p-1 text-xl text-blue-600 opacity-30 transition hover:opacity-100 focus:outline-none"
+                  aria-label="Close menu"
                 >
-                  {item}
-                </a>
-                <span
-                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
-                    activeSection === item.toLowerCase()
-                      ? "w-full"
-                      : "w-0 group-hover:w-full"
-                  }`}
-                ></span>
+                  &times; {/* X icon */}
+                </button>
+
+                {/* Menu Items */}
+                {menuItems.map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    onClick={() => setFloatingOpen(false)}
+                    className="dark:hover:text-neon-green rounded-md px-3 py-1 text-sm font-semibold text-black/80 backdrop-blur-sm transition hover:text-blue-600 dark:text-white/90"
+                  >
+                    {item}
+                  </a>
+                ))}
               </div>
-            ))}
+            )}
           </div>
-          <div className="mt-5 flex gap-5">
-            <a href="https://www.linkedin.com/in/debanshurout" target="_blank">
-              <SiLinkedin size="1.5rem" className="text-blue-600" />
-            </a>
-            <a href="https://www.instagram.com/debanshu__rout/" target="_blank">
-              <SiInstagram size="1.5rem" className="text-pink-500" />
-            </a>
-            <a href="https://x.com/debanshu78" target="_blank">
-              <RiTwitterXFill size="1.5rem" />
-            </a>
-          </div>
-        </motion.div>
+        )}
       </div>
     </div>
   );
