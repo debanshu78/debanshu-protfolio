@@ -10,6 +10,7 @@ export default defineConfig({
       usePolling: true,
       interval: 100,
     },
-    host: true, // Optional: if you're accessing from localhost or LAN
+    host: "0.0.0.0", // <--- Change this line
+    port: 5173, // Optional: if you're accessing from localhost or LAN
   },
 });

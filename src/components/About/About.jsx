@@ -51,9 +51,15 @@ const About = () => {
       icon: <FaBriefcase />,
     },
     {
-      year: "Feb 2023 – Present",
+      year: "Feb 2023 – April 2025",
       title: "Software Developer",
       description: "Building software systems at Siemens.",
+      icon: <FaBriefcase />,
+    },
+    {
+      year: "May 2025 - Present",
+      title: "Senior Software Developer",
+      description: ".......",
       icon: <FaBriefcase />,
     },
     {

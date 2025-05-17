@@ -118,6 +118,49 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Mobile Sidebar */}
+        <motion.div
+          initial={{ x: "100%" }}
+          animate={{ x: isOpen ? 0 : "100%" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className={`fixed top-0 right-0 z-50 flex h-full w-64 flex-col gap-5 rounded-2xl border-r border-gray-300 bg-white bg-gradient-to-br p-5 text-black drop-shadow-xl transition-all md:hidden dark:from-[#0b0f19] dark:to-[#111827] dark:text-white`}
+        >
+          <div className="flex justify-end">
+            <RiCloseLine size="2rem" onClick={() => setIsOpen(false)} />
+          </div>
+          <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
+            {menuItems.map((item) => (
+              <div key={item} className="group relative cursor-pointer">
+                <a
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setIsOpen(false)}
+                  className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+                >
+                  {item}
+                </a>
+                <span
+                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
+                    activeSection === item.toLowerCase()
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 flex gap-5">
+            <a href="https://www.linkedin.com/in/debanshurout" target="_blank">
+              <SiLinkedin size="1.5rem" className="text-blue-600" />
+            </a>
+            <a href="https://www.instagram.com/debanshu__rout/" target="_blank">
+              <SiInstagram size="1.5rem" className="text-pink-500" />
+            </a>
+            <a href="https://x.com/debanshu78" target="_blank">
+              <RiTwitterXFill size="1.5rem" />
+            </a>
+          </div>
+        </motion.div>
+
         {/* Floating Menu */}
         {showFloating && (
           <div className="fixed right-5 bottom-10 z-40">

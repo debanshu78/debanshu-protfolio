@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaArrowUp } from "react-icons/fa6";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
+import { AuthModal } from "../AuthModal/AuthModal";
 
 // Dummy skills data
 const skillsData = [
@@ -54,6 +55,7 @@ const Skills = () => {
   const [votes, setVotes] = useState({});
   const [activeCategory, setActiveCategory] = useState("All");
   const [showArrows, setShowArrows] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
   const scrollRef = useRef(null);
 
   const handleUpvote = (skillName) => {
@@ -103,6 +105,11 @@ const Skills = () => {
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
   }, [filteredSkills]);
+
+  const showMoadal = (skill) => {
+    setShowAuth(true);
+    handleUpvote(skill.name);
+  };
 
   return (
     <section
@@ -184,7 +191,7 @@ const Skills = () => {
 
                 <div className="mt-2 flex items-center gap-1">
                   <button
-                    onClick={() => handleUpvote(skill.name)}
+                    onClick={() => showMoadal(skill)}
                     className="dark:text-neon-green cursor-pointer text-blue-600"
                   >
                     <FaArrowUp size={18} />
@@ -212,6 +219,7 @@ const Skills = () => {
           </div>
         </div>
       </div>
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
     </section>
   );
 };
