@@ -7,7 +7,7 @@ const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/testimonials-post" element={<TestimonialsForm />} exact />
+      <Route path="/testimonial-post" element={<TestimonialsForm />} exact />
     </Routes>
   );
 };

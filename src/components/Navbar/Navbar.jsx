@@ -4,13 +4,13 @@ import { RiTwitterXFill, RiMenu3Line, RiCloseLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import ThemeToogle from "../ThemeToogle";
 import useActiveSection from "../../hooks/useActiveSection";
+import PropTypes from "prop-types";
 
-const Navbar = () => {
+const Navbar = ({ menuItems, isMenuPanel, menuPanel }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [floatingOpen, setFloatingOpen] = useState(false);
   const [showFloating, setShowFloating] = useState(false);
   const activeSection = useActiveSection();
-  const menuItems = ["Home", "Skills", "Voices", "About", "Contact"];
 
   // Show floating button based on scroll position and footer distance
   useEffect(() => {
@@ -62,28 +62,32 @@ const Navbar = () => {
           </div>
 
           {/* Menu for desktop */}
-          <div
-            id="menu"
-            className="font-poppins mx-6 hidden gap-5 font-medium md:flex"
-          >
-            {menuItems.map((item) => (
-              <div key={item} className="group relative cursor-pointer">
-                <a
-                  href={`#${item.toLowerCase()}`}
-                  className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
-                >
-                  {item}
-                </a>
-                <span
-                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
-                    activeSection === item.toLowerCase()
-                      ? "w-full"
-                      : "w-0 group-hover:w-full"
-                  }`}
-                ></span>
-              </div>
-            ))}
-          </div>
+          {!isMenuPanel ? (
+            <div
+              id="menu"
+              className="font-poppins mx-6 hidden gap-5 font-medium md:flex"
+            >
+              {menuItems?.map((item) => (
+                <div key={item} className="group relative cursor-pointer">
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+                  >
+                    {item}
+                  </a>
+                  <span
+                    className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
+                      activeSection === item.toLowerCase()
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    }`}
+                  ></span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            menuPanel
+          )}
 
           <div className="flex">
             <div className="items-center px-4 md:flex">
@@ -128,26 +132,30 @@ const Navbar = () => {
           <div className="flex justify-end">
             <RiCloseLine size="2rem" onClick={() => setIsOpen(false)} />
           </div>
-          <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
-            {menuItems.map((item) => (
-              <div key={item} className="group relative cursor-pointer">
-                <a
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsOpen(false)}
-                  className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
-                >
-                  {item}
-                </a>
-                <span
-                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
-                    activeSection === item.toLowerCase()
-                      ? "w-full"
-                      : "w-0 group-hover:w-full"
-                  }`}
-                ></span>
-              </div>
-            ))}
-          </div>
+          {isMenuPanel ? (
+            <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
+              {menuItems?.map((item) => (
+                <div key={item} className="group relative cursor-pointer">
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    onClick={() => setIsOpen(false)}
+                    className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+                  >
+                    {item}
+                  </a>
+                  <span
+                    className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
+                      activeSection === item.toLowerCase()
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    }`}
+                  ></span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            menuPanel
+          )}
           <div className="mt-5 flex gap-5">
             <a href="https://www.linkedin.com/in/debanshurout" target="_blank">
               <SiLinkedin size="1.5rem" className="text-blue-600" />
@@ -205,6 +213,12 @@ const Navbar = () => {
       </div>
     </div>
   );
+};
+
+Navbar.propTypes = {
+  menuItems: PropTypes.array, // optional
+  menuPanel: PropTypes.element, // optional
+  isMenuPanel: PropTypes.bool, // optional
 };
 
 export default Navbar;

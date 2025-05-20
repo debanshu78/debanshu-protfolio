@@ -64,7 +64,7 @@ const Voices = () => {
           Share a few words about working with me
         </p>
         <motion.a
-          href="/testimonial-form"
+          href="/testimonial-post"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           className="dark:border-neon-green dark:text-neon-green dark:hover:bg-neon-green mb-3 inline-flex items-center gap-2 rounded-xl border border-blue-500 px-4 py-2 text-blue-600 transition-all hover:bg-blue-600 hover:text-white dark:hover:text-black"
