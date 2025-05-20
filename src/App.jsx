@@ -3,7 +3,6 @@ import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import HeaderSection from "./components/Header/HeaderSection";
-import HeaderSectionD from "./components/Header/HeaderSectionDeveloper";
 import Navbar from "./components/Navbar/Navbar";
 import Skills from "./components/Skills/Skills";
 import Voices from "./components/Voices/Voices";
