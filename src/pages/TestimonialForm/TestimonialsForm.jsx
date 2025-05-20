@@ -19,6 +19,9 @@ export default function TestimonialForm() {
   });
 
   const [flipped, setFlipped] = useState(false);
+  const menuItems = [
+    { label: "Get back to me", href: "/" },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,19 +44,7 @@ export default function TestimonialForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-[#e4e4e7] text-black transition-all duration-500 dark:bg-[#0d1117] dark:bg-gradient-to-br dark:from-[#0b0f19] dark:to-[#111827] dark:text-gray-200">
-      <Navbar
-        isMenuPanel={true}
-        menuPanel={
-          <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
-            <div className="group relative cursor-pointer">
-              <a href={`/`}>Get Back To Me</a>
-              <span
-                className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] w-0 bg-blue-600 transition-all duration-300 group-hover:w-full`}
-              ></span>
-            </div>
-          </div>
-        }
-      />
+      <Navbar menuItems={menuItems} />
 
       <div
         id="testimonial-form"

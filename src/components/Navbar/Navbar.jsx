@@ -6,7 +6,7 @@ import ThemeToogle from "../ThemeToogle";
 import useActiveSection from "../../hooks/useActiveSection";
 import PropTypes from "prop-types";
 
-const Navbar = ({ menuItems, isMenuPanel, menuPanel }) => {
+const Navbar = ({ menuItems }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [floatingOpen, setFloatingOpen] = useState(false);
   const [showFloating, setShowFloating] = useState(false);
@@ -62,32 +62,29 @@ const Navbar = ({ menuItems, isMenuPanel, menuPanel }) => {
           </div>
 
           {/* Menu for desktop */}
-          {!isMenuPanel ? (
-            <div
-              id="menu"
-              className="font-poppins mx-6 hidden gap-5 font-medium md:flex"
-            >
-              {menuItems?.map((item) => (
-                <div key={item} className="group relative cursor-pointer">
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
-                  >
-                    {item}
-                  </a>
-                  <span
-                    className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
-                      activeSection === item.toLowerCase()
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  ></span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            menuPanel
-          )}
+
+          <div
+            id="menu"
+            className="font-poppins mx-6 hidden gap-5 font-medium md:flex"
+          >
+            {menuItems?.map((item) => (
+              <div key={item} className="group relative cursor-pointer">
+                <a
+                  href={`${item.href.toLowerCase()}`}
+                  className={`${activeSection === item.label.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+                >
+                  {item.label}
+                </a>
+                <span
+                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
+                    activeSection === item.label.toLowerCase()
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </div>
+            ))}
+          </div>
 
           <div className="flex">
             <div className="items-center px-4 md:flex">
@@ -132,30 +129,27 @@ const Navbar = ({ menuItems, isMenuPanel, menuPanel }) => {
           <div className="flex justify-end">
             <RiCloseLine size="2rem" onClick={() => setIsOpen(false)} />
           </div>
-          {isMenuPanel ? (
-            <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
-              {menuItems?.map((item) => (
-                <div key={item} className="group relative cursor-pointer">
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    onClick={() => setIsOpen(false)}
-                    className={`${activeSection === item.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
-                  >
-                    {item}
-                  </a>
-                  <span
-                    className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
-                      activeSection === item.toLowerCase()
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  ></span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            menuPanel
-          )}
+          <div className="font-poppins flex flex-col gap-5 text-lg font-medium">
+            {menuItems?.map((item) => (
+              <div key={item} className="group relative cursor-pointer">
+                <a
+                  href={`${item.href.toLowerCase()}`}
+                  onClick={() => setIsOpen(false)}
+                  className={`${activeSection === item.label.toLowerCase() ? "dark:text-neon-green text-blue-600" : ""}`}
+                >
+                  {item.label}
+                </a>
+                <span
+                  className={`dark:bg-neon-green absolute bottom-[-2px] left-0 h-[2px] bg-blue-600 transition-all duration-300 ${
+                    activeSection === item.label.toLowerCase()
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </div>
+            ))}
+          </div>
+
           <div className="mt-5 flex gap-5">
             <a href="https://www.linkedin.com/in/debanshurout" target="_blank">
               <SiLinkedin size="1.5rem" className="text-blue-600" />
@@ -216,9 +210,12 @@ const Navbar = ({ menuItems, isMenuPanel, menuPanel }) => {
 };
 
 Navbar.propTypes = {
-  menuItems: PropTypes.array, // optional
-  menuPanel: PropTypes.element, // optional
-  isMenuPanel: PropTypes.bool, // optional
+  menuItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      href: PropTypes.string.isRequired,
+    }),
+  ), // optional
 };
 
 export default Navbar;
