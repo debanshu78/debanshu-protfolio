@@ -25,6 +25,15 @@ export default function TestimonialForm() {
     setForm((f) => ({ ...f, [name]: value }));
   };
 
+  const handleImageUpload = (file) => {
+    if (!file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setForm((prev) => ({ ...prev, avatar: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const { avatar, name, email, role, company, linkedIn, message, fullMessage } =
     form;
 
@@ -81,14 +90,67 @@ export default function TestimonialForm() {
             className="w-full max-w-xl space-y-5 text-left"
             onSubmit={(e) => e.preventDefault()}
           >
-            <input
-              name="avatar"
-              type="url"
-              placeholder="Avatar URL (optional)"
-              value={avatar}
-              onChange={handleChange}
-              className="w-full rounded-md border border-gray-300 p-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-[#0d1117] dark:text-white dark:focus:ring-[var(--color-neon-green)]"
-            />
+            {/* file upload div */}
+            <div
+              className="relative w-full cursor-pointer rounded-md border-2 border-dashed border-gray-300 p-4 text-center transition-all duration-300 hover:border-blue-500 dark:border-gray-600 dark:hover:border-[var(--color-neon-green)]"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                if (file) handleImageUpload(file);
+              }}
+            >
+              <label
+                htmlFor="avatar-upload"
+                className="mb-2 block text-sm font-medium text-gray-600 dark:text-gray-300"
+              >
+                Upload Avatar (Click or Drag & Drop)
+              </label>
+              <input
+                id="avatar-upload"
+                name="avatar"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => handleImageUpload(e.target.files[0])}
+              />
+
+              <div
+                onClick={() => document.getElementById("avatar-upload").click()}
+                className="flex flex-col items-center justify-center space-y-2"
+              >
+                {form.avatar ? (
+                  <div className="relative">
+                    <img
+                      src={form.avatar}
+                      alt="Avatar Preview"
+                      className="h-24 w-24 rounded-full border border-gray-400 object-cover shadow dark:border-gray-600"
+                    />
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setForm((prev) => ({ ...prev, avatar: "" }));
+                      }}
+                      className="dark:text-neon-green absolute -top-2 right-0 text-2xl text-blue-600 opacity-70 transition hover:opacity-100 focus:outline-none"
+                      aria-label="Remove avatar"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      Click or drag an image here
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      (Supported formats: JPG, PNG, GIF)
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
             <input
               name="name"
               type="text"

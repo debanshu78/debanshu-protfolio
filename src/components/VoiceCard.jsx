@@ -1,12 +1,8 @@
-import React from "react";
 import { FaLinkedin, FaQuoteLeft, FaSyncAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
-const VoiceCard = ({
-  t,
-  flippedCardId,
-  setFlippedCardId,
-}) => {
+const VoiceCard = ({ t, flippedCardId, setFlippedCardId }) => {
   const extraSkills = t.upvotedSkills.length - 3;
 
   return (
@@ -56,6 +52,7 @@ const VoiceCard = ({
           <div className="flex min-h-24 items-center justify-center">
             <p className="relative pl-4 text-gray-700 dark:text-gray-200">
               <FaQuoteLeft className="dark:text-neon-green absolute top-1 left-0 text-blue-500" />
+              &nbsp;&nbsp;&nbsp;
               {t.message}
             </p>
           </div>
@@ -96,6 +93,23 @@ const VoiceCard = ({
       </motion.div>
     </motion.div>
   );
+};
+
+VoiceCard.propTypes = {
+  t: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+    linkedIn: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    fullMessage: PropTypes.string.isRequired,
+    upvotedSkills: PropTypes.arrayOf(PropTypes.string).isRequired,
+    date: PropTypes.string,
+  }).isRequired,
+  flippedCardId: PropTypes.string,
+  setFlippedCardId: PropTypes.func.isRequired,
 };
 
 export default VoiceCard;
