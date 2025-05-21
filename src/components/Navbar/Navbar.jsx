@@ -183,7 +183,7 @@ const Navbar = ({ menuItems }) => {
                 {/* Close Button */}
                 <button
                   onClick={() => setFloatingOpen(false)}
-                  className="dark:text-neon-green p-1 text-xl text-blue-600 opacity-30 transition hover:opacity-100 focus:outline-none"
+                  className="dark:text-neon-green p-1 text-xl text-blue-600 opacity-60 transition hover:opacity-100 focus:outline-none"
                   aria-label="Close menu"
                 >
                   &times; {/* X icon */}
@@ -193,11 +193,11 @@ const Navbar = ({ menuItems }) => {
                 {menuItems.map((item) => (
                   <a
                     key={item}
-                    href={`#${item.toLowerCase()}`}
+                    href={`#${item.label.toLowerCase()}`}
                     onClick={() => setFloatingOpen(false)}
                     className="dark:hover:text-neon-green rounded-md px-3 py-1 text-sm font-semibold text-black/80 backdrop-blur-sm transition hover:text-blue-600 dark:text-white/90"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 ))}
               </div>

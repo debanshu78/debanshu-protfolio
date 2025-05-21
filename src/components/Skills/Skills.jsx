@@ -3,6 +3,7 @@ import { FaArrowLeft, FaArrowRight, FaArrowUp } from "react-icons/fa6";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import { AuthModal } from "../AuthModal/AuthModal";
+import WelcomeUser from "../WelcomeUser/WelcomeUser";
 
 // Dummy skills data
 const skillsData = [
@@ -56,6 +57,8 @@ const Skills = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [showArrows, setShowArrows] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   const scrollRef = useRef(null);
 
   const handleUpvote = (skillName) => {
@@ -122,7 +125,19 @@ const Skills = () => {
         </h2>
         <p className="mb-10 text-center text-gray-400 dark:text-gray-300">
           Click on the ⬆️ to upvote my skills
+          <WelcomeUser
+            beforeSignInText="just a moment and "
+            user={null}
+            onSignInClick={() => setShowAuthModal(true)}
+            className="mb-4"
+          />
         </p>
+
+        {/* Your modal logic */}
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+        />
 
         {/* Category Toggles */}
         <div className="mb-10 flex flex-wrap justify-center gap-4">

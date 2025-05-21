@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 
 export const AuthForm = ({ mode, onSuccess }) => {
@@ -67,10 +68,15 @@ export const AuthForm = ({ mode, onSuccess }) => {
 
       <button
         type="submit"
-        className="rounded-md bg-blue-600 px-6 py-2 text-white shadow transition hover:bg-blue-700 dark:bg-[var(--color-neon-green)] dark:text-black dark:hover:brightness-110"
+        className="rounded-md bg-blue-600 px-6 py-2 text-white shadow transition dark:bg-[var(--color-neon-green)] dark:text-black dark:hover:brightness-110"
       >
         {mode === "signin" ? "Sign In" : "Sign Up"}
       </button>
     </form>
   );
+};
+
+AuthForm.propTypes = {
+  mode: PropTypes.oneOf(["signin", "signup"]).isRequired,
+  onSuccess: PropTypes.func.isRequired,
 };

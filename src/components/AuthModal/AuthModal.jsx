@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AuthForm } from "./AuthForm";
 import { SocialLoginButtons } from "./SocialLoginButtons";
 import { IoClose } from "react-icons/io5";
-import { FaKey, FaSignInAlt, FaUserPlus } from "react-icons/fa";
+import PropTypes from "prop-types";
 
 export const AuthModal = ({ isOpen, onClose }) => {
   const [mode, setMode] = useState("signin"); // 'signin' or 'signup'
@@ -31,7 +31,7 @@ export const AuthModal = ({ isOpen, onClose }) => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.25 }}
             >
-              <Dialog.Title className="mb-4 text-center text-xl font-bold">
+              <Dialog.Title className="mb-4 text-center text-xl font-bold text-gray-800 dark:text-gray-100">
                 {mode === "signin" ? (
                   <>
                     Let’s Get You In!
@@ -65,10 +65,10 @@ export const AuthModal = ({ isOpen, onClose }) => {
 
               <SocialLoginButtons />
 
-              <div className="mt-4 text-center text-sm">
+              <div className="mt-4 text-center text-sm text-gray-800 dark:text-gray-100">
                 {mode === "signin" ? (
                   <>
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <button
                       className="dark:text-neon-green font-semibold text-blue-500"
                       onClick={() => setMode("signup")}
@@ -94,4 +94,9 @@ export const AuthModal = ({ isOpen, onClose }) => {
       </div>
     </Dialog>
   );
+};
+
+AuthModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };

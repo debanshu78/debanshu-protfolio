@@ -3,6 +3,14 @@ import { FaArrowLeft, FaArrowRight, FaRegEdit } from "react-icons/fa";
 import { motion } from "framer-motion";
 import testimonials from "./testimonial.json";
 import VoiceCard from "../VoiceCard";
+import WelcomeUser from "../WelcomeUser/WelcomeUser";
+import { AuthModal } from "../AuthModal/AuthModal";
+
+const dummyUser = {
+  name: "Debanshu Rout",
+  email: "debanshu@example.com",
+  // add more fields as needed
+};
 
 const Voices = () => {
   const containerRef = useRef(null);
@@ -11,6 +19,7 @@ const Voices = () => {
   const [canScroll, setCanScroll] = useState(false);
   const [flippedCardId, setFlippedCardId] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -56,13 +65,24 @@ const Voices = () => {
       id="voices"
     >
       <div className="mx-auto max-w-6xl">
-        <h2 className="mb-10 text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
+        <h2 className="mb-5 text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
           What Others say?
         </h2>
-
         <p className="mb-1 text-gray-400 dark:text-gray-300">
           Share a few words about working with me
         </p>
+        <WelcomeUser
+          beforeSignInText="but before that just"
+          user={dummyUser} // Replace with `null` to test logged-out state
+          onSignInClick={() => setShowAuthModal(true)}
+          className="mb-4"
+        />
+        {/* Your modal logic */}
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+        />
+
         <motion.a
           href="/testimonial-post"
           whileHover={{ scale: 1.1 }}
@@ -72,7 +92,6 @@ const Voices = () => {
           <FaRegEdit className="text-xl" />
           Add a few words
         </motion.a>
-
         {/* Testimonial Carousel */}
         <div className="relative mt-6">
           {canScroll && (

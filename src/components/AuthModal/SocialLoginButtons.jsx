@@ -6,22 +6,22 @@ export const SocialLoginButtons = () => {
   };
 
   return (
-    <div className="flex justify-center gap-4">
+    <div className="flex justify-center gap-4 text-black dark:text-white">
       <button
         onClick={() => handleSocialLogin("google")}
-        className="rounded-full bg-white p-2 dark:bg-[#2a3a5b]"
+        className="rounded-full bg-gray-300 p-2 dark:bg-[#2a3a5b]"
       >
         <FaGoogle size={20} />
       </button>
       <button
         onClick={() => handleSocialLogin("github")}
-        className="rounded-full bg-white p-2 dark:bg-[#2a3a5b]"
+        className="rounded-full bg-gray-300 p-2 dark:bg-[#2a3a5b]"
       >
         <FaGithub size={20} />
       </button>
       <button
         onClick={() => handleSocialLogin("linkedin")}
-        className="rounded-full bg-white p-2 dark:bg-[#2a3a5b]"
+        className="rounded-full bg-gray-300 p-2 dark:bg-[#2a3a5b]"
       >
         <FaLinkedin size={20} />
       </button>
