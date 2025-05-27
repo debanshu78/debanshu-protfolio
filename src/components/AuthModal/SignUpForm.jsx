@@ -5,10 +5,10 @@ import {
   verifyOtp,
   registerUser,
   resetAuthStatus,
+  resetError,
 } from "../../state/slice/authSlice";
 import InputField from "../InputField/InputField";
 import {
-  FaCheckCircle,
   FaEye,
   FaEyeSlash,
   FaPaperPlane,
@@ -16,7 +16,6 @@ import {
 } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Spinner from "../Spinner/Spinner";
-import { HiOutlineMailOpen } from "react-icons/hi";
 
 export const SignUpForm = ({ onSuccess }) => {
   const dispatch = useDispatch();
@@ -46,6 +45,9 @@ export const SignUpForm = ({ onSuccess }) => {
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
 
+  const [resendTimer, setResendTimer] = useState(0);
+  const [submitError, setSubmitError] = useState("");
+
   useEffect(() => {
     return () => {
       setForm({
@@ -62,7 +64,22 @@ export const SignUpForm = ({ onSuccess }) => {
       setSignupLoading(false);
       dispatch(resetAuthStatus());
     };
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (resendTimer > 0) {
+      const interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [resendTimer]);
+
+  useEffect(() => {
+    if (!error) return;
+    setSubmitError(error);
+    dispatch(resetError());
+  }, [error, dispatch]);
 
   // Helper function for email validation
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -99,6 +116,8 @@ export const SignUpForm = ({ onSuccess }) => {
       case "otp":
         if (!value.trim())
           return { status: "error", message: "OTP is required." };
+        else if (value.length !== 6 || isNaN(value))
+          return { status: "error", message: "OTP must be a 6-digit number." };
         return { status: "default", message: "" };
       default:
         return { status: "default", message: "" };
@@ -160,7 +179,27 @@ export const SignUpForm = ({ onSuccess }) => {
     return null;
   };
 
+  const getOTPEndAdornment = () => {
+    if (otpLoading) {
+      return (
+        <Spinner size={24} className="dark:text-neon-green text-blue-500" />
+      );
+    }
+    if (resendTimer > 0) {
+      return <span className="text-gray-400 select-none">{resendTimer}s</span>;
+    }
+    return (
+      <div
+        className="dark:text-neon-green flex cursor-pointer items-center gap-2 text-blue-500"
+        onClick={handleSendOtp}
+      >
+        Resend?
+      </div>
+    );
+  };
+
   const handleChange = (field, value) => {
+    setSubmitError(null);
     let vResultInst = getFieldValidation(field, value);
     setValidation((prev) => ({ ...prev, [field]: vResultInst }));
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -176,6 +215,7 @@ export const SignUpForm = ({ onSuccess }) => {
     setOtpLoading(true);
     await dispatch(sendOtp(form.email));
     setOtpLoading(false);
+    setResendTimer(120);
   };
 
   const handleVerifyOtp = async () => {
@@ -215,30 +255,39 @@ export const SignUpForm = ({ onSuccess }) => {
         helperText={validation.email.message}
         status={validation.email.status}
         endAdornment={getEmailEndAdornment()}
+        disabled={otpVerified}
       />
 
       {/* Send OTP Button */}
       {!otpSent && (
-        <button
-          type="button"
-          onClick={handleSendOtp}
-          disabled={otpLoading}
-          className="rounded-md bg-blue-600 px-6 py-2 text-white shadow transition dark:bg-[var(--color-neon-green)] dark:text-black dark:hover:brightness-110"
-        >
-          Send OTP
-        </button>
+        <>
+          {/* Error */}
+          {submitError && <p className="text-sm text-red-500">{submitError}</p>}
+          <button
+            type="button"
+            onClick={handleSendOtp}
+            disabled={otpLoading}
+            className="rounded-md bg-blue-600 px-6 py-2 text-white shadow transition dark:bg-[var(--color-neon-green)] dark:text-black dark:hover:brightness-110"
+          >
+            Send OTP
+          </button>
+        </>
       )}
 
       {/* Step 2: OTP Input and Verify Button */}
       {otpSent && !otpVerified && (
         <>
           <InputField
+            type="number"
             placeholder="Enter OTP"
             value={form.otp}
             onChange={(e) => handleChange("otp", e.target.value)}
             helperText={validation.otp.message}
             status={validation.otp.status}
+            endAdornment={getOTPEndAdornment()}
           />
+          {/* Error */}
+          {submitError && <p className="text-sm text-red-500">{submitError}</p>}
           <button
             type="button"
             onClick={handleVerifyOtp}
@@ -304,7 +353,7 @@ export const SignUpForm = ({ onSuccess }) => {
           />
 
           {/* Error */}
-          {error && <p className="text-sm text-red-500">{error}</p>}
+          {submitError && <p className="text-sm text-red-500">{submitError}</p>}
 
           {/* Submit Button */}
           <button

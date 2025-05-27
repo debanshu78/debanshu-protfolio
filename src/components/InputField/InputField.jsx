@@ -29,7 +29,7 @@ const InputField = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`w-full rounded bg-gray-100 px-4 py-2 pr-12 text-black transition outline-none dark:bg-[#2a3a5b] dark:text-white ${statusStyles[status]}`}
+        className={`w-full rounded bg-gray-100 px-4 py-2 pr-18 text-black transition outline-none dark:bg-[#2a3a5b] dark:text-white ${statusStyles[status]}`}
         {...rest}
       />
       {endAdornment && (

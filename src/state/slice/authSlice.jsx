@@ -91,6 +91,9 @@ const authSlice = createSlice({
       state.otpSent = false;
       state.otpVerified = false;
     },
+    resetError: (state) => {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -138,5 +141,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, resetAuthStatus } = authSlice.actions;
+export const { logout, resetAuthStatus, resetError } = authSlice.actions;
 export default authSlice.reducer;
