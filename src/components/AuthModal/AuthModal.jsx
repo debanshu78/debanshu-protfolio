@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { AuthForm } from "./AuthForm";
+// import { AuthForm } from "./AuthForm";
 import { SocialLoginButtons } from "./SocialLoginButtons";
 import { IoClose } from "react-icons/io5";
 import PropTypes from "prop-types";
+import { SignInForm } from "./SignInForm";
+import { SignUpForm } from "./SignUpForm";
 
 export const AuthModal = ({ isOpen, onClose }) => {
   const [mode, setMode] = useState("signin"); // 'signin' or 'signup'
@@ -56,15 +58,23 @@ export const AuthModal = ({ isOpen, onClose }) => {
                   </>
                 )}
               </Dialog.Title>
-
-              <AuthForm mode={mode} onSuccess={onClose} />
-
+              {mode === "signin" ? (
+                <SignInForm
+                  onSuccess={() => {
+                    setMode("signin");
+                  }}
+                />
+              ) : (
+                <SignUpForm
+                  onSuccess={() => {
+                    setMode("signin");
+                  }}
+                />
+              )}
               <div className="my-4 text-center text-sm text-gray-500 dark:text-gray-300">
                 or continue with
               </div>
-
               <SocialLoginButtons />
-
               <div className="mt-4 text-center text-sm text-gray-800 dark:text-gray-100">
                 {mode === "signin" ? (
                   <>
