@@ -59,7 +59,7 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, thunkAPI) => {
     try {
-      const response = await api.post("/api/v1/authauth/login", {
+      const response = await api.post("/api/v1/auth/signin", {
         email,
         password,
       });

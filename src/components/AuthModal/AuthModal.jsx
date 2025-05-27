@@ -61,7 +61,7 @@ export const AuthModal = ({ isOpen, onClose }) => {
               {mode === "signin" ? (
                 <SignInForm
                   onSuccess={() => {
-                    setMode("signin");
+                    onClose();
                   }}
                 />
               ) : (

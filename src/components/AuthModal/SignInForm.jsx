@@ -11,13 +11,51 @@ export const SignInForm = ({ onSuccess }) => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
 
+  // Validation state
+  const [validation, setValidation] = useState({
+    email: { status: "default", message: "" },
+    password: { status: "default", message: "" },
+  });
+
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const getFieldValidation = (field, value) => {
+    switch (field) {
+      case "email":
+        if (!value.trim())
+          return { status: "error", message: "Email is required." };
+        if (!isValidEmail(value))
+          return { status: "error", message: "Invalid email address." };
+        return { status: "default", message: "" };
+      case "password":
+        if (!value)
+          return { status: "error", message: "Password is required." };
+        return { status: "default", message: "" };
+      default:
+        return { status: "default", message: "" };
+    }
+  };
+
+  const validate = () => {
+    const result = {
+      email: getFieldValidation("email", form.email),
+      password: getFieldValidation("password", form.password),
+    };
+    setValidation(result);
+    return Object.values(result).every((v) => v.status !== "error");
+  };
+
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    setValidation((prev) => ({
+      ...prev,
+      [field]: getFieldValidation(field, value),
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", );
+    if (!validate()) return;
     const result = await dispatch(loginUser(form));
     if (result.meta.requestStatus === "fulfilled") {
       onSuccess();
@@ -28,6 +66,10 @@ export const SignInForm = ({ onSuccess }) => {
     return () => {
       setForm({ email: "", password: "" });
       setShowPassword(false);
+      setValidation({
+        email: { status: "default", message: "" },
+        password: { status: "default", message: "" },
+      });
     };
   }, []);
 
@@ -38,6 +80,8 @@ export const SignInForm = ({ onSuccess }) => {
         type="email"
         value={form.email}
         onChange={(e) => handleChange("email", e.target.value)}
+        helperText={validation.email.message}
+        status={validation.email.status}
         required
       />
       <InputField
@@ -45,6 +89,8 @@ export const SignInForm = ({ onSuccess }) => {
         type={showPassword ? "text" : "password"}
         value={form.password}
         onChange={(e) => handleChange("password", e.target.value)}
+        helperText={validation.password.message}
+        status={validation.password.status}
         endAdornment={
           showPassword ? (
             <FaEyeSlash
