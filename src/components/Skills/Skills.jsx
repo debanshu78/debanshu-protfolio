@@ -4,6 +4,7 @@ import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import { AuthModal } from "../AuthModal/AuthModal";
 import WelcomeUser from "../WelcomeUser/WelcomeUser";
+import { useSelector } from "react-redux";
 
 // Dummy skills data
 const skillsData = [
@@ -53,6 +54,9 @@ const skillsData = [
 const categories = ["All", "Frontend", "Backend", "Tools", "Programming"];
 
 const Skills = () => {
+  const { user, status } = useSelector((state) => state.auth);
+  console.log("User:", user, "Status:", status);
+
   const [votes, setVotes] = useState({});
   const [activeCategory, setActiveCategory] = useState("All");
   const [showArrows, setShowArrows] = useState(false);
