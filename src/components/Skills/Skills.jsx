@@ -40,7 +40,6 @@ const skillsData = [
   { name: "Git", icon: "🔧", category: "Tools", projects: [] },
   { name: "GraphQL", icon: "🕸️", category: "Backend", projects: [] },
   { name: "Redux", icon: "🌀", category: "Frontend", projects: [] },
-
   { name: "JavaScript", icon: "📜", category: "Programming", projects: [] },
   { name: "TypeScript", icon: "🔷", category: "Programming", projects: [] },
   { name: "Next.js", icon: "➡️", category: "Frontend", projects: [] },
@@ -131,7 +130,7 @@ const Skills = () => {
           Click on the ⬆️ to upvote my skills
           <WelcomeUser
             beforeSignInText="just a moment and "
-            user={null}
+            user={user}
             onSignInClick={() => setShowAuthModal(true)}
             className="mb-4"
           />

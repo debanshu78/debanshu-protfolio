@@ -5,16 +5,13 @@ import testimonials from "./testimonial.json";
 import VoiceCard from "../VoiceCard";
 import WelcomeUser from "../WelcomeUser/WelcomeUser";
 import { AuthModal } from "../AuthModal/AuthModal";
-
-const dummyUser = {
-  name: "Debanshu Rout",
-  email: "debanshu@example.com",
-  // add more fields as needed
-};
+import { useSelector } from "react-redux";
 
 const Voices = () => {
   const containerRef = useRef(null);
   const intervalRef = useRef(null);
+
+  const { user, status } = useSelector((state) => state.auth);
 
   const [canScroll, setCanScroll] = useState(false);
   const [flippedCardId, setFlippedCardId] = useState(null);
@@ -73,7 +70,7 @@ const Voices = () => {
         </p>
         <WelcomeUser
           beforeSignInText="but before that just"
-          user={dummyUser} // Replace with `null` to test logged-out state
+          user={user} // Replace with `null` to test logged-out state
           onSignInClick={() => setShowAuthModal(true)}
           className="mb-4"
         />
