@@ -78,7 +78,7 @@ export const fetchMe = createAsyncThunk(
   "auth/fetchMe",
   async (_, thunkAPI) => {
     try {
-      const response = await api.get("/api/v1/user/me");
+      const response = await api.get("/api/v1/user/me", { withCredentials: true });
       return response.data.user;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -185,7 +185,7 @@ const authSlice = createSlice({
       .addCase(fetchMe.rejected, (state, action) => {
         state.status = "failed";
         state.user = null;
-        state.error = action.payload;
+        // state.error = action.payload;
       })
 
       // Logout

@@ -1,120 +1,113 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { FaArrowLeft, FaArrowRight, FaArrowUp } from "react-icons/fa6";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import { AuthModal } from "../AuthModal/AuthModal";
 import WelcomeUser from "../WelcomeUser/WelcomeUser";
-import { useSelector } from "react-redux";
-
-// Dummy skills data
-const skillsData = [
-  {
-    name: "React",
-    icon: "⚛️",
-    category: "Frontend",
-    projects: ["https://github.com/your-react-project"],
-  },
-  {
-    name: "Node.js",
-    icon: "🟢",
-    category: "Backend",
-    projects: ["https://github.com/your-node-project"],
-  },
-  {
-    name: "Docker",
-    icon: "🐳",
-    category: "Tools",
-    projects: ["https://github.com/your-docker-project"],
-  },
-  {
-    name: "PostgreSQL",
-    icon: "🐘",
-    category: "Backend",
-    projects: ["https://github.com/your-db-project"],
-  },
-  { name: "JavaScript", icon: "📜", category: "Programming", projects: [] },
-  { name: "TypeScript", icon: "🔷", category: "Programming", projects: [] },
-  { name: "Next.js", icon: "➡️", category: "Frontend", projects: [] },
-  { name: "Tailwind CSS", icon: "💨", category: "Frontend", projects: [] },
-  { name: "Express.js", icon: "🚂", category: "Backend", projects: [] },
-  { name: "Git", icon: "🔧", category: "Tools", projects: [] },
-  { name: "GraphQL", icon: "🕸️", category: "Backend", projects: [] },
-  { name: "Redux", icon: "🌀", category: "Frontend", projects: [] },
-  { name: "JavaScript", icon: "📜", category: "Programming", projects: [] },
-  { name: "TypeScript", icon: "🔷", category: "Programming", projects: [] },
-  { name: "Next.js", icon: "➡️", category: "Frontend", projects: [] },
-  { name: "Tailwind CSS", icon: "💨", category: "Frontend", projects: [] },
-  { name: "Express.js", icon: "🚂", category: "Backend", projects: [] },
-  { name: "Git", icon: "🔧", category: "Tools", projects: [] },
-  { name: "GraphQL", icon: "🕸️", category: "Backend", projects: [] },
-  { name: "Redux", icon: "🌀", category: "Frontend", projects: [] },
-];
-
-const categories = ["All", "Frontend", "Backend", "Tools", "Programming"];
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchSkills,
+  upvoteSkill,
+  downvoteSkill,
+} from "../../state/slice/skillsSlice";
 
 const Skills = () => {
-  const { user, status } = useSelector((state) => state.auth);
-  console.log("User:", user, "Status:", status);
+  const dispatch = useDispatch();
+  const { skills, status, error } = useSelector((state) => state.skills);
+  const { user } = useSelector((state) => state.auth);
 
-  const [votes, setVotes] = useState({});
   const [activeCategory, setActiveCategory] = useState("All");
   const [showArrows, setShowArrows] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const scrollRef = useRef(null);
 
-  const handleUpvote = (skillName) => {
-    setVotes((prev) => ({
-      ...prev,
-      [skillName]: (prev[skillName] || 0) + 1,
-    }));
+  // Memoize categories for performance
+  const categories = useMemo(
+    () => [
+      "All",
+      ...Array.from(new Set(skills.map((skill) => skill.category))),
+    ],
+    [skills],
+  );
 
-    confetti({
-      particleCount: 80,
-      spread: 60,
-      origin: { y: 0.6 },
-    });
+  // Memoize filtered skills
+  const filteredSkills = useMemo(
+    () =>
+      activeCategory === "All"
+        ? skills
+        : skills.filter((skill) => skill.category === activeCategory),
+    [skills, activeCategory],
+  );
+
+  // Toggle upvote/downvote handler
+  const handleSkillVote = async (skill) => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    const hasUpvoted = skill.skillUpvotes?.some(
+      (upvote) => upvote.userId === user._id
+    );
+    try {
+      if (hasUpvoted) {
+        await dispatch(downvoteSkill(skill._id)).unwrap();
+      } else {
+        await dispatch(upvoteSkill(skill._id)).unwrap();
+        confetti({
+          particleCount: 80,
+          spread: 60,
+          origin: { y: 0.6 },
+        });
+      }
+    } catch (err) {
+      // Optionally show error
+    }
   };
 
-  const scrollByAmount = () => {
+  // Scroll helpers
+  const scrollByAmount = useCallback(() => {
     const container = scrollRef.current;
     if (!container) return 300;
     const card = container.querySelector("div > div");
     return card ? card.offsetWidth * 2.5 : 300;
-  };
+  }, []);
 
-  const scrollLeft = () => {
+  const scrollLeft = useCallback(() => {
     scrollRef.current?.scrollBy({
       left: -scrollByAmount(),
       behavior: "smooth",
     });
-  };
+  }, [scrollByAmount]);
 
-  const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: scrollByAmount(), behavior: "smooth" });
-  };
+  const scrollRight = useCallback(() => {
+    scrollRef.current?.scrollBy({
+      left: scrollByAmount(),
+      behavior: "smooth",
+    });
+  }, [scrollByAmount]);
 
-  const filteredSkills =
-    activeCategory === "All"
-      ? skillsData
-      : skillsData.filter((skill) => skill.category === activeCategory);
+  // Fetch skills on mount
+  useEffect(() => {
+    dispatch(fetchSkills());
+  }, [dispatch]);
 
+  // Check if arrows should be shown
   useEffect(() => {
     const checkOverflow = () => {
       const el = scrollRef.current;
       if (!el) return;
       setShowArrows(el.scrollWidth > el.clientWidth + 10);
     };
-
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
   }, [filteredSkills]);
 
-  const showMoadal = (skill) => {
-    setShowAuth(true);
-    handleUpvote(skill.name);
+  // Show auth modal and upvote
+  const handleSkillUpvoteWithAuth = (skill) => {
+    // setShowAuthModal(true);
+    handleSkillVote(skill);
   };
 
   return (
@@ -136,7 +129,6 @@ const Skills = () => {
           />
         </p>
 
-        {/* Your modal logic */}
         <AuthModal
           isOpen={showAuthModal}
           onClose={() => setShowAuthModal(false)}
@@ -159,7 +151,7 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Arrows (absolute and space reserved always) */}
+        {/* Arrows */}
         <div className="relative mb-6 h-10">
           {showArrows && (
             <>
@@ -181,18 +173,18 @@ const Skills = () => {
           )}
         </div>
 
-        {/* Skills Carousel (2 rows or 1 row if fits) */}
+        {/* Skills Carousel */}
         <div
           ref={scrollRef}
           className={`hide-scrollbar flex snap-x snap-mandatory overflow-x-auto scroll-smooth ${
             !showArrows ? "justify-center" : ""
           }`}
-          style={{ minHeight: "16rem" }} // maintain consistent height
+          style={{ minHeight: "16rem" }}
         >
           <div
             className={`grid ${
               filteredSkills.length <= 10
-                ? "grid-rows-1 items-start" // Center items for single row
+                ? "grid-rows-1 items-start"
                 : "grid-rows-2"
             } auto-cols-[minmax(150px,_1fr)] grid-flow-col gap-4 p-1.5`}
           >
@@ -206,23 +198,31 @@ const Skills = () => {
                 <div className="text-sm font-semibold text-gray-800 dark:text-white">
                   {skill.name}
                 </div>
-
                 <div className="mt-2 flex items-center gap-1">
                   <button
-                    onClick={() => showMoadal(skill)}
-                    className="dark:text-neon-green cursor-pointer text-blue-600"
+                    onClick={() => handleSkillVote(skill)}
+                    className={`cursor-pointer ${
+                      skill.skillUpvotes?.some((upvote) => upvote.userId === user?._id)
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-blue-600 dark:text-neon-green"
+                    }`}
+                    title={
+                      skill.skillUpvotes?.some((upvote) => upvote.userId === user?._id)
+                        ? "Remove upvote"
+                        : "Upvote"
+                    }
                   >
                     <FaArrowUp size={18} />
                   </button>
                   <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
-                    {votes[skill.name] || 0}
+                    {skill.skillUpvotes?.length || 0}
                   </span>
                 </div>
-
                 {skill.projects.length > 0 ? (
                   <a
                     href={skill.projects[0]}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="mt-1 text-xs text-blue-500 hover:underline"
                   >
                     View Project
@@ -237,7 +237,6 @@ const Skills = () => {
           </div>
         </div>
       </div>
-      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
     </section>
   );
 };
