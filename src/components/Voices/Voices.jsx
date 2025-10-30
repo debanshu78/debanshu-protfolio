@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaRegEdit } from "react-icons/fa";
 import { motion } from "framer-motion";
-import testimonials from "./testimonial.json";
 import VoiceCard from "../VoiceCard";
 import WelcomeUser from "../WelcomeUser/WelcomeUser";
 import { AuthModal } from "../AuthModal/AuthModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLatestTestimonialsPerUser } from "../../state/slice/testimonialSlice";
 
 const Voices = () => {
+  const dispatch = useDispatch();
   const containerRef = useRef(null);
   const intervalRef = useRef(null);
 
@@ -17,6 +18,37 @@ const Voices = () => {
   const [flippedCardId, setFlippedCardId] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Rename to avoid confusion
+  const { testimonials: apiTestimonials, testimonialsStatus, error } = useSelector(
+    (state) => state.testimonial,
+  );
+
+  // Local state for mapped testimonials
+  const [testimonials, setTestimonials] = useState([]);
+
+  // Fetch from API
+  useEffect(() => {
+    dispatch(fetchLatestTestimonialsPerUser());
+  }, [dispatch]);
+
+  // Transform API testimonials to UI structure
+  useEffect(() => {
+    if (!Array.isArray(apiTestimonials)) return;
+    const mapped = apiTestimonials.map((t, idx) => ({
+      id: t._id || idx,
+      avatar: t.user?.avatarUrl || "https://i.pravatar.cc/150?img=12",
+      name: t.user?.name || "Anonymous",
+      role: t.user?.currentPosition || "",
+      company: t.user?.company || "",
+      linkedIn: t.user?.socialLinks?.linkedIn || "",
+      message: t.shortMessage || "",
+      fullMessage: t.fullMessage || "",
+      upvotedSkills: t.upvotedSkills || [],
+      date: new Date(t.createdAt).toLocaleString("default", { month: "long", year: "numeric" }),
+    }));
+    setTestimonials(mapped);
+  }, [apiTestimonials]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -30,14 +62,12 @@ const Voices = () => {
     return () => window.removeEventListener("resize", checkScroll);
   }, []);
 
-  // Auto-scroll logic
   useEffect(() => {
     if (!canScroll || isHovered) return;
     intervalRef.current = setInterval(() => {
       const container = containerRef.current;
       if (container) {
         container.scrollBy({ left: 360, behavior: "smooth" });
-        // Loop back when near end
         if (
           container.scrollLeft + container.clientWidth >=
           container.scrollWidth - 10
@@ -70,11 +100,10 @@ const Voices = () => {
         </p>
         <WelcomeUser
           beforeSignInText="but before that just"
-          user={user} // Replace with `null` to test logged-out state
+          user={user}
           onSignInClick={() => setShowAuthModal(true)}
           className="mb-4"
         />
-        {/* Your modal logic */}
         <AuthModal
           isOpen={showAuthModal}
           onClose={() => setShowAuthModal(false)}

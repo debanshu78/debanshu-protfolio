@@ -103,6 +103,25 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+// Upload Avatar
+export const uploadAvatar = createAsyncThunk(
+  "auth/uploadAvatar",
+  async (file, thunkAPI) => {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+      const response = await api.post("/api/v1/user/upload-avatar", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response.data.url;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || "Failed to upload avatar"
+      );
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -112,6 +131,9 @@ const authSlice = createSlice({
     error: null,
     otpSent: false,
     otpVerified: false,
+    avatarUploadUrl: "",
+    avatarUploadStatus: "idle",
+    avatarUploadError: null,
   },
   reducers: {
     logout: (state) => {
@@ -126,6 +148,11 @@ const authSlice = createSlice({
     },
     resetError: (state) => {
       state.error = null;
+    },
+    resetAvatarUpload: (state) => {
+      state.avatarUploadUrl = "";
+      state.avatarUploadStatus = "idle";
+      state.avatarUploadError = null;
     },
   },
   extraReducers: (builder) => {
@@ -198,9 +225,23 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+
+      // Avatar Upload
+      .addCase(uploadAvatar.pending, (state) => {
+        state.avatarUploadStatus = "loading";
+        state.avatarUploadError = null;
+      })
+      .addCase(uploadAvatar.fulfilled, (state, action) => {
+        state.avatarUploadStatus = "succeeded";
+        state.avatarUploadUrl = action.payload;
+      })
+      .addCase(uploadAvatar.rejected, (state, action) => {
+        state.avatarUploadStatus = "failed";
+        state.avatarUploadError = action.payload;
       });
   },
 });
 
-export const { logout, resetAuthStatus, resetError } = authSlice.actions;
+export const { logout, resetAuthStatus, resetError, resetAvatarUpload } = authSlice.actions;
 export default authSlice.reducer;
