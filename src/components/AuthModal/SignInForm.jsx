@@ -4,8 +4,13 @@ import { loginUser } from "../../state/slice/authSlice";
 import InputField from "../InputField/InputField";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import PropTypes from "prop-types";
+import { useLocation, useNavigate } from "react-router";
 
 export const SignInForm = ({ onSuccess }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.auth);
   const [form, setForm] = useState({ email: "", password: "" });
@@ -59,6 +64,7 @@ export const SignInForm = ({ onSuccess }) => {
     const result = await dispatch(loginUser(form));
     if (result.meta.requestStatus === "fulfilled") {
       onSuccess();
+      navigate(from, { replace: true });
     }
   };
 
@@ -93,12 +99,12 @@ export const SignInForm = ({ onSuccess }) => {
         status={validation.password.status}
         endAdornment={
           showPassword ? (
-            <FaEyeSlash
+            <FaEye
               onClick={() => setShowPassword(false)}
               className="cursor-pointer"
             />
           ) : (
-            <FaEye
+            <FaEyeSlash
               onClick={() => setShowPassword(true)}
               className="cursor-pointer"
             />

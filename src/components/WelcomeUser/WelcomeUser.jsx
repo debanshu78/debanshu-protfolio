@@ -20,7 +20,7 @@ const WelcomeUser = ({
         <p className="text-gray-400 dark:text-gray-300">
           {beforeSignInText} &nbsp;
           <button
-            onClick={onSignInClick}
+            // onClick={onSignInClick}
             className="dark:text-neon-green dark:hover:text-neon-green font-medium text-blue-600 underline underline-offset-4 hover:text-blue-800"
           >
             Sign in

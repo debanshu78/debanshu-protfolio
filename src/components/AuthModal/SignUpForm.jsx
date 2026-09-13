@@ -318,12 +318,12 @@ export const SignUpForm = ({ onSuccess }) => {
             status={validation.password.status}
             endAdornment={
               showPassword ? (
-                <FaEyeSlash
+                <FaEye
                   onClick={() => setShowPassword(false)}
                   className="cursor-pointer"
                 />
               ) : (
-                <FaEye
+                <FaEyeSlash
                   onClick={() => setShowPassword(true)}
                   className="cursor-pointer"
                 />

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaArrowUp } from "react-icons/fa6";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
-import { AuthModal } from "../AuthModal/AuthModal";
 import WelcomeUser from "../WelcomeUser/WelcomeUser";
 import { useSelector } from "react-redux";
 
@@ -61,7 +60,6 @@ const Skills = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [showArrows, setShowArrows] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const scrollRef = useRef(null);
 
@@ -132,16 +130,9 @@ const Skills = () => {
           <WelcomeUser
             beforeSignInText="just a moment and "
             user={null}
-            onSignInClick={() => setShowAuthModal(true)}
             className="mb-4"
           />
         </p>
-
-        {/* Your modal logic */}
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-        />
 
         {/* Category Toggles */}
         <div className="mb-10 flex flex-wrap justify-center gap-4">
@@ -238,7 +229,6 @@ const Skills = () => {
           </div>
         </div>
       </div>
-      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
     </section>
   );
 };

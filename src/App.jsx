@@ -6,6 +6,9 @@ import HeaderSection from "./components/Header/HeaderSection";
 import Navbar from "./components/Navbar/Navbar";
 import Skills from "./components/Skills/Skills";
 import Voices from "./components/Voices/Voices";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "./state/slice/userSlice";
 
 const App = () => {
   const menuItems = [

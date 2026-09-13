@@ -7,17 +7,29 @@ import { IoClose } from "react-icons/io5";
 import PropTypes from "prop-types";
 import { SignInForm } from "./SignInForm";
 import { SignUpForm } from "./SignUpForm";
+import { useLoginModal } from "../../context/LoginModalContext";
+import { useLocation, useNavigate } from "react-router";
 
-export const AuthModal = ({ isOpen, onClose }) => {
-  const [mode, setMode] = useState("signin"); // 'signin' or 'signup'
+export const AuthModal = () => {
+  const { isLoginOpen, closeLoginModal } = useLoginModal();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const [mode, setMode] = useState("signin");
 
   return (
-    <Dialog open={isOpen} onClose={onClose} className="fixed inset-0 z-50">
+    <Dialog
+      open={isLoginOpen}
+      onClose={closeLoginModal}
+      className="fixed inset-0 z-50"
+    >
       <div className="flex min-h-screen items-center justify-center bg-black/50 px-2 sm:px-4">
         <Dialog.Panel className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-[#1b2a49]">
           {/* Close Button */}
           <button
-            onClick={onClose}
+            onClick={closeLoginModal}
             className="absolute top-4 right-4 text-gray-500 hover:text-red-500"
             aria-label="Close"
           >
@@ -61,7 +73,9 @@ export const AuthModal = ({ isOpen, onClose }) => {
               {mode === "signin" ? (
                 <SignInForm
                   onSuccess={() => {
-                    onClose();
+                    const from = location.state?.from?.pathname || "/"; // or get from context
+                    navigate(from, { replace: true });
+                    closeLoginModal(); // Close modal
                   }}
                 />
               ) : (

@@ -59,10 +59,14 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, thunkAPI) => {
     try {
-      const response = await api.post("/api/v1/auth/signin", {
-        email,
-        password,
-      });
+      const response = await api.post(
+        "/api/v1/auth/signin",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true },
+      );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

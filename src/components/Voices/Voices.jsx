@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaRegEdit } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useNavigate, useLocation } from "react-router";
+import { useSelector } from "react-redux";
 import testimonials from "./testimonial.json";
 import VoiceCard from "../VoiceCard";
 import WelcomeUser from "../WelcomeUser/WelcomeUser";
-import { AuthModal } from "../AuthModal/AuthModal";
-
-const dummyUser = {
-  name: "Debanshu Rout",
-  email: "debanshu@example.com",
-  // add more fields as needed
-};
+import { useLoginModal } from "../../context/LoginModalContext";
+import { useRequireAuth } from "../../hooks/useRequireAuth";
 
 const Voices = () => {
   const containerRef = useRef(null);
@@ -19,8 +16,14 @@ const Voices = () => {
   const [canScroll, setCanScroll] = useState(false);
   const [flippedCardId, setFlippedCardId] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { isAuthenticated } = useRequireAuth();
+  const { isLoginOpen, openLoginModal, closeLoginModal } = useLoginModal();
+
+  // Check if scrolling is needed
   useEffect(() => {
     const container = containerRef.current;
     const checkScroll = () => {
@@ -33,14 +36,13 @@ const Voices = () => {
     return () => window.removeEventListener("resize", checkScroll);
   }, []);
 
-  // Auto-scroll logic
+  // Auto scroll
   useEffect(() => {
     if (!canScroll || isHovered) return;
     intervalRef.current = setInterval(() => {
       const container = containerRef.current;
       if (container) {
         container.scrollBy({ left: 360, behavior: "smooth" });
-        // Loop back when near end
         if (
           container.scrollLeft + container.clientWidth >=
           container.scrollWidth - 10
@@ -51,6 +53,16 @@ const Voices = () => {
     }, 4000);
     return () => clearInterval(intervalRef.current);
   }, [canScroll, isHovered]);
+
+  const handleAddWordsClick = () => {
+    console.log(isAuthenticated, "isAuthenticated");
+    if (isAuthenticated) {
+      navigate("/testimonial");
+    } else {
+      openLoginModal();
+      navigate("/", { state: { from: { pathname: "/testimonial" } } });
+    }
+  };
 
   const scroll = (direction) => {
     const container = containerRef.current;
@@ -65,34 +77,30 @@ const Voices = () => {
       id="voices"
     >
       <div className="mx-auto max-w-6xl">
-        <h2 className="mb-5 text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
-          What Others say?
+        <h2 className="mb-5 text-3xl font-bold text-gray-800 dark:text-gray-100">
+          What Others Say?
         </h2>
         <p className="mb-1 text-gray-400 dark:text-gray-300">
           Share a few words about working with me
         </p>
+
         <WelcomeUser
           beforeSignInText="but before that just"
-          user={dummyUser} // Replace with `null` to test logged-out state
-          onSignInClick={() => setShowAuthModal(true)}
+          user={isAuthenticated ? { name: "Debanshu Rout" } : null}
+          onSignInClick={handleAddWordsClick}
           className="mb-4"
         />
-        {/* Your modal logic */}
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-        />
 
-        <motion.a
-          href="/testimonial-post"
+        <motion.button
+          onClick={handleAddWordsClick}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           className="dark:border-neon-green dark:text-neon-green dark:hover:bg-neon-green mb-3 inline-flex items-center gap-2 rounded-xl border border-blue-500 px-4 py-2 text-blue-600 transition-all hover:bg-blue-600 hover:text-white dark:hover:text-black"
         >
           <FaRegEdit className="text-xl" />
           Add a few words
-        </motion.a>
-        {/* Testimonial Carousel */}
+        </motion.button>
+
         <div className="relative mt-6">
           {canScroll && (
             <>
@@ -114,7 +122,7 @@ const Voices = () => {
             ref={containerRef}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="hide-scrollbar scroll-smoothtransition-all flex snap-x snap-mandatory gap-4 overflow-x-auto p-2 duration-500 hover:[animation-play-state:paused]"
+            className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth p-2"
           >
             {testimonials.map((t) => (
               <VoiceCard
