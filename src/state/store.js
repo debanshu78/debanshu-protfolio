@@ -1,0 +1,12 @@
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slice/authSlice";
+import skillsReducer from "./slice/skillsSlice";
+import testimonialReducer from "./slice/testimonialSlice";
+
+export const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    skills: skillsReducer,
+    testimonial: testimonialReducer,
+  },
+});

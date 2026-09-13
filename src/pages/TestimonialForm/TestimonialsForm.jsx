@@ -1,35 +1,87 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import VoiceCard from "../../components/VoiceCard";
+import {
+  createTestimonial,
+  resetTestimonialState,
+} from "../../state/slice/testimonialSlice";
+import { uploadAvatar } from "../../state/slice/authSlice";
 
 const defaultAvatar = "https://i.pravatar.cc/150?img=36";
 
 export default function TestimonialForm() {
+  // State
+  const dispatch = useDispatch();
+  const { user, avatarUploadStatus, avatarUploadError } = useSelector(
+    (state) => state.auth,
+  );
+  const testimonialState = useSelector((state) => state.testimonial);
+
   const [form, setForm] = useState({
     avatar: "",
     name: "",
     email: "",
-    role: "",
+    currentPosition: "",
     company: "",
-    linkedIn: "",
-    message: "",
+    socialLinks: { linkedIn: "" },
+    shortMessage: "",
     fullMessage: "",
   });
 
+  const [avatarFile, setAvatarFile] = useState(null);
   const [flipped, setFlipped] = useState(false);
-  const menuItems = [
-    { label: "Get back to me", href: "/" },
-  ];
 
+  // Effects
+  useEffect(() => {
+    if (user) {
+      // If user has at least one testimonial, use the latest (populated by backend)
+      const latestTestimonial =
+        Array.isArray(user.testimonials) && user.testimonials.length > 0
+          ? user.testimonials[0]
+          : null;
+
+      setForm((f) => ({
+        ...f,
+        name: user.name || "",
+        email: user.email || "",
+        currentPosition: latestTestimonial?.currentPosition || user.currentPosition || "",
+        company: latestTestimonial?.company || user.company || "",
+        socialLinks: {
+          linkedIn: latestTestimonial?.socialLinks?.linkedIn || user.socialLinks?.linkedIn || "",
+        },
+        shortMessage: latestTestimonial?.shortMessage || "",
+        fullMessage: latestTestimonial?.fullMessage || "",
+        avatar: latestTestimonial?.avatar || user.avatarUrl || "",
+      }));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetTestimonialState());
+    };
+  }, [dispatch]);
+
+  // Handlers
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+    if (name === "linkedIn") {
+      setForm((f) => ({
+        ...f,
+        socialLinks: { ...f.socialLinks, linkedIn: value },
+      }));
+    } else {
+      setForm((f) => ({ ...f, [name]: value }));
+    }
   };
 
   const handleImageUpload = (file) => {
     if (!file.type.startsWith("image/")) return;
+    setAvatarFile(file);
+    // For preview
     const reader = new FileReader();
     reader.onloadend = () => {
       setForm((prev) => ({ ...prev, avatar: reader.result }));
@@ -37,10 +89,46 @@ export default function TestimonialForm() {
     reader.readAsDataURL(file);
   };
 
-  const { avatar, name, email, role, company, linkedIn, message, fullMessage } =
-    form;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(resetTestimonialState());
 
+    let avatarUrl = form.avatar;
+
+    if (avatarFile) {
+      try {
+        const url = await dispatch(uploadAvatar(avatarFile)).unwrap();
+        avatarUrl = url;
+      } catch (err) {
+        // Optionally show error
+        return;
+      }
+    }
+
+    dispatch(
+      createTestimonial({
+        ...form,
+        avatarUrl: avatarUrl,
+        user: user?._id,
+        avatar: undefined,
+      }),
+    );
+  };
+
+  // Render
+  const {
+    avatar,
+    name,
+    email,
+    currentPosition,
+    company,
+    socialLinks,
+    shortMessage,
+    fullMessage,
+  } = form;
   const avatarUrl = avatar.trim() || defaultAvatar;
+
+  const menuItems = [{ label: "Get back to me", href: "/" }];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f5f5f5] to-[#e4e4e7] text-black transition-all duration-500 dark:bg-[#0d1117] dark:bg-gradient-to-br dark:from-[#0b0f19] dark:to-[#111827] dark:text-gray-200">
@@ -70,10 +158,11 @@ export default function TestimonialForm() {
                 id: "preview",
                 avatar: avatarUrl,
                 name: name || "Your Name",
-                role: role || "Your Role",
+                role: currentPosition || "Your Role",
                 company: company || "Your Company",
-                linkedIn,
-                message: message || "Your short testimonial message here...",
+                linkedIn: socialLinks?.linkedIn,
+                message:
+                  shortMessage || "Your short testimonial message here...",
                 fullMessage:
                   fullMessage ||
                   "Your full detailed testimonial message here...",
@@ -91,7 +180,7 @@ export default function TestimonialForm() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="w-full max-w-xl space-y-5 text-left"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit}
           >
             {/* file upload div */}
             <div
@@ -134,6 +223,7 @@ export default function TestimonialForm() {
                       onClick={(e) => {
                         e.stopPropagation();
                         setForm((prev) => ({ ...prev, avatar: "" }));
+                        setAvatarFile(null);
                       }}
                       className="dark:text-neon-green absolute -top-2 right-0 text-2xl text-blue-600 opacity-70 transition hover:opacity-100 focus:outline-none"
                       aria-label="Remove avatar"
@@ -152,6 +242,11 @@ export default function TestimonialForm() {
                   </>
                 )}
               </div>
+              {avatarUploadError && (
+                <div className="mt-2 text-xs text-red-500">
+                  {avatarUploadError}
+                </div>
+              )}
             </div>
 
             <input
@@ -161,7 +256,8 @@ export default function TestimonialForm() {
               required
               value={name}
               onChange={handleChange}
-              className="w-full rounded-md border border-gray-300 p-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-[#0d1117] dark:text-white dark:focus:ring-[var(--color-neon-green)]"
+              disabled
+              className="w-full rounded-md border border-gray-300 bg-gray-100 p-3 text-gray-500 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-[var(--color-neon-green)]"
             />
             <input
               name="email"
@@ -170,13 +266,14 @@ export default function TestimonialForm() {
               required
               value={email}
               onChange={handleChange}
-              className="w-full rounded-md border border-gray-300 p-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-[#0d1117] dark:text-white dark:focus:ring-[var(--color-neon-green)]"
+              disabled
+              className="w-full rounded-md border border-gray-300 bg-gray-100 p-3 text-gray-500 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:focus:ring-[var(--color-neon-green)]"
             />
             <input
-              name="role"
+              name="currentPosition"
               type="text"
               placeholder="Your Role"
-              value={role}
+              value={currentPosition}
               onChange={handleChange}
               className="w-full rounded-md border border-gray-300 p-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-[#0d1117] dark:text-white dark:focus:ring-[var(--color-neon-green)]"
             />
@@ -192,16 +289,16 @@ export default function TestimonialForm() {
               name="linkedIn"
               type="url"
               placeholder="LinkedIn URL"
-              value={linkedIn}
+              value={socialLinks?.linkedIn}
               onChange={handleChange}
               className="w-full rounded-md border border-gray-300 p-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-[#0d1117] dark:text-white dark:focus:ring-[var(--color-neon-green)]"
             />
             <textarea
-              name="message"
+              name="shortMessage"
               placeholder="Short Message"
               required
               rows={3}
-              value={message}
+              value={shortMessage}
               onChange={handleChange}
               className="w-full rounded-md border border-gray-300 p-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-[#0d1117] dark:text-white dark:focus:ring-[var(--color-neon-green)]"
             />
@@ -216,27 +313,32 @@ export default function TestimonialForm() {
               onBlur={() => setFlipped(false)}
               className="w-full rounded-md border border-gray-300 p-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-[#0d1117] dark:text-white dark:focus:ring-[var(--color-neon-green)]"
             />
+            {testimonialState.error && (
+              <div className="text-sm text-red-500">
+                {testimonialState.error}
+              </div>
+            )}
+            {testimonialState.success && (
+              <div className="text-sm text-green-600">
+                Thank you for your testimonial!
+              </div>
+            )}
             <button
               type="submit"
               className="rounded-md bg-blue-600 px-6 py-2 text-white shadow transition hover:bg-blue-700 dark:bg-[var(--color-neon-green)] dark:text-black dark:hover:brightness-110"
-              onClick={() => alert("Form submission logic goes here!")}
+              disabled={
+                testimonialState.status === "loading" ||
+                avatarUploadStatus === "loading"
+              }
             >
-              Submit Testimonial
+              {testimonialState.status === "loading" ||
+              avatarUploadStatus === "loading"
+                ? "Submitting..."
+                : "Submit Testimonial"}
             </button>
           </motion.form>
         </div>
-
-        {/* Thank you message
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mt-10 max-w-3xl text-center text-xl font-semibold"
-        >
-          🙏 Thanks so much for taking the time to share your thoughts! 💬✨
-        </motion.div> */}
       </div>
-
       <Footer />
     </div>
   );

@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 import App from "./App";
 import TestimonialsForm from "./pages/TestimonialForm/TestimonialsForm";
+import AuthInitializer from "./AuthInitializer";
 import { useLoginModal } from "./context/LoginModalContext";
 import { AuthModal } from "./components/AuthModal/AuthModal";
 import PrivateRoute from "./PrivateRoute";
@@ -17,23 +18,12 @@ const Routing = () => {
   }, [dispatch]);
   
   return (
-    <>
+    <AuthInitializer>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route
-          path="/testimonial"
-          element={
-            <PrivateRoute>
-              <TestimonialsForm />
-            </PrivateRoute>
-          }
-          exact
-        />
+        <Route path="/testimonial-post" element={<TestimonialsForm />} exact />
       </Routes>
-
-      {/* Global Auth Modal */}
-      <AuthModal isOpen={isLoginOpen} onClose={closeLoginModal} />
-    </>
+    </AuthInitializer>
   );
 };
 
